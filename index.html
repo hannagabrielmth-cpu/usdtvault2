@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FlashUSDT Vault – Buy FlashUSDT Instantly</title>
+<!-- Poppins + Inter + JetBrains Mono -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<!-- Font Awesome 6 – fixes all broken icon boxes -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"/>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════════════════ */
+:root{
+  --bg:#050e08;--bg2:#071209;--card:rgba(10,22,14,0.85);--card2:rgba(8,18,11,0.9);
+  --green:#39FF14;--green-dark:#1a7a00;--teal:#00e5cc;--gold:#ffd700;
+  --glow:rgba(57,255,20,0.22);--glow2:rgba(0,229,204,0.15);
+  --border:rgba(57,255,20,0.14);--border2:rgba(0,229,204,0.2);
+  --text:#eaf5ea;--muted:#587a5a;--danger:#ff4444;
+  --r8:8px;--r12:12px;--r16:16px;--r20:20px;
+  --grad-btn:linear-gradient(135deg,#39FF14 0%,#1a9600 60%,#062400 100%);
+  --grad-btn-hover:linear-gradient(135deg,#55ff33 0%,#1aaa00 60%,#0a3300 100%);
+  --glass:rgba(10,22,14,0.72);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6}
+h1,h2,h3,h4,.logo,.section-title,.hero-title,.purchase-header h2,.faq-question h4,.modal-header h3,.airdrop-header h2,.mining-card-header h3,.about-text h2,.footer-logo{font-family:'Poppins',sans-serif}
+p,span,div,label,a,button{font-family:'Inter',sans-serif}
+
+/* Grid background */
+body::after{content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(57,255,20,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,20,0.025) 1px,transparent 1px);
+  background-size:48px 48px;pointer-events:none;z-index:0}
+
+/* Noise */
+body::before{content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:.4}
+
+/* ═══════════════════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════════════════ */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;height:64px;
+  background:rgba(5,14,8,0.92);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);transition:.3s}
+nav.scrolled{background:rgba(5,14,8,0.97);border-bottom-color:rgba(57,255,20,0.2)}
+.logo{font-family:'Poppins',sans-serif;font-size:1.55rem;font-weight:800;
+  color:var(--green);text-shadow:0 0 18px var(--glow);letter-spacing:1px;flex-shrink:0}
+.logo span{color:var(--teal)}
+.nav-center{display:flex;gap:2px;align-items:center}
+.nav-link{color:var(--muted);text-decoration:none;font-size:.8rem;font-weight:600;
+  letter-spacing:.3px;transition:.2s;text-transform:uppercase;
+  display:flex;align-items:center;gap:6px;padding:8px 13px;border-radius:var(--r8);position:relative}
+.nav-link::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);
+  width:0;height:2px;background:var(--green);border-radius:2px;transition:.25s}
+.nav-link:hover{color:var(--green)}
+.nav-link:hover::after,.nav-link.active::after{width:55%}
+.nav-link.active{color:var(--green)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-cta{padding:9px 22px;border-radius:var(--r8);
+  background:var(--grad-btn);color:#030a01;font-family:'Poppins',sans-serif;
+  font-weight:700;font-size:.8rem;text-decoration:none;letter-spacing:.4px;
+  transition:.25s;display:flex;align-items:center;gap:7px;white-space:nowrap;
+  box-shadow:0 0 16px rgba(57,255,20,0.25)}
+.nav-cta:hover{transform:translateY(-1px) scale(1.03);box-shadow:0 0 28px rgba(57,255,20,0.45);background:var(--grad-btn-hover)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;
+  padding:8px;border-radius:var(--r8);border:1px solid var(--border);background:transparent;transition:.2s}
+.hamburger:hover{border-color:rgba(57,255,20,0.3)}
+.hamburger span{display:block;width:20px;height:2px;background:var(--green);border-radius:2px;transition:.3s;transform-origin:center}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{position:fixed;top:64px;left:0;right:0;z-index:199;
+  background:rgba(5,14,8,0.98);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);padding:16px 24px 24px;
+  display:flex;flex-direction:column;gap:4px;
+  max-height:0;overflow:hidden;transition:.35s ease;pointer-events:none;opacity:0}
+.mobile-menu.open{max-height:400px;pointer-events:auto;opacity:1}
+.mobile-link{color:var(--muted);text-decoration:none;font-size:.9rem;font-weight:600;
+  text-transform:uppercase;padding:12px 16px;border-radius:var(--r8);
+  display:flex;align-items:center;gap:10px;transition:.2s}
+.mobile-link:hover,.mobile-link.active{color:var(--green);background:rgba(57,255,20,0.05)}
+.mobile-cta{margin-top:8px;padding:13px 20px;border-radius:var(--r8);
+  background:var(--grad-btn);color:#030a01;font-family:'Poppins',sans-serif;
+  font-weight:800;font-size:.9rem;text-decoration:none;text-align:center;
+  display:flex;align-items:center;justify-content:center;gap:8px}
+@media(max-width:860px){nav{padding:0 20px}.nav-center{display:none}.nav-cta{display:none}.hamburger{display:flex}}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════════════════════════ */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 16px rgba(0,229,204,0.2)}50%{box-shadow:0 0 30px rgba(0,229,204,0.4)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shimmerBar{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+@keyframes confettiFall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(18px)}to{opacity:1;transform:none}}
+@keyframes upsellIn{from{opacity:0;transform:translateY(40px) scale(.95)}to{opacity:1;transform:none}}
+@keyframes upsellGlow{0%,100%{box-shadow:0 0 14px rgba(57,255,20,0.22)}50%{box-shadow:0 0 30px rgba(57,255,20,0.5)}}
+@keyframes winnerPulse{0%,100%{box-shadow:0 0 28px rgba(255,180,0,0.4)}50%{box-shadow:0 0 52px rgba(255,180,0,0.65)}}
+@keyframes jackpotGlow{0%,100%{box-shadow:0 0 10px rgba(255,100,0,0.2)}50%{box-shadow:0 0 26px rgba(255,100,0,0.45)}}
+
+/* ═══════════════════════════════════════════════════════════════
+   SHARED LAYOUT
+═══════════════════════════════════════════════════════════════ */
+section{position:relative;z-index:2}
+.section-header{text-align:center;margin-bottom:52px}
+.section-label{display:inline-flex;align-items:center;gap:7px;font-size:.7rem;
+  font-weight:700;letter-spacing:2px;color:var(--teal);text-transform:uppercase;margin-bottom:12px}
+.section-title{font-family:'Poppins',sans-serif;font-size:clamp(1.7rem,4vw,2.7rem);
+  font-weight:700;color:#fff;letter-spacing:.5px}
+.section-title .g{color:var(--green);text-shadow:0 0 20px rgba(57,255,20,0.4)}
+.reveal{opacity:0;transform:translateY(26px);transition:.7s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* Glass card base */
+.glass-card{background:var(--glass);border:1px solid var(--border);
+  border-radius:var(--r20);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  box-shadow:0 8px 32px rgba(0,0,0,0.35),inset 0 1px 0 rgba(57,255,20,0.06)}
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════════════ */
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;padding:120px 24px 70px;z-index:1;text-align:center}
+.hero-bg{position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 20%,rgba(57,255,20,0.07) 0%,transparent 60%),
+  radial-gradient(ellipse 40% 40% at 80% 80%,rgba(0,229,204,0.05) 0%,transparent 50%)}
+.hero-content{position:relative;z-index:2;text-align:center;max-width:820px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;
+  border-radius:100px;border:1px solid var(--border2);background:rgba(0,229,204,0.07);
+  font-size:.75rem;font-weight:600;color:var(--teal);letter-spacing:1px;margin-bottom:26px;
+  animation:fadeDown .6s ease both}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 8px var(--green);animation:pulse 1.5s infinite}
+.hero-title{font-family:'Poppins',sans-serif;font-size:clamp(2.2rem,6vw,4rem);
+  font-weight:800;line-height:1.1;color:#fff;margin-bottom:18px;letter-spacing:.5px;
+  animation:fadeUp .7s ease .1s both;text-align:center}
+.hero-title .accent{color:var(--green);text-shadow:0 0 28px rgba(57,255,20,0.5)}
+.hero-sub{font-size:1rem;color:var(--muted);max-width:520px;margin:0 auto 34px;
+  line-height:1.75;animation:fadeUp .7s ease .2s both;text-align:center}
+.hero-cta-wrap{display:flex;align-items:center;justify-content:center;gap:14px;
+  flex-wrap:wrap;margin-bottom:40px;animation:fadeUp .7s ease .3s both;width:100%}
+.trust-badges{display:flex;align-items:center;justify-content:center;gap:24px;
+  flex-wrap:wrap;animation:fadeUp .7s ease .4s both}
+.trust-item{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted);font-weight:500}
+.trust-check{width:20px;height:20px;border-radius:50%;
+  background:rgba(57,255,20,0.1);border:1px solid rgba(57,255,20,0.3);
+  display:flex;align-items:center;justify-content:center;color:var(--green);flex-shrink:0}
+.trust-check i{font-size:.52rem}
+
+/* ═══════════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════════ */
+.btn-primary{display:inline-flex;align-items:center;gap:9px;padding:14px 32px;
+  border-radius:var(--r8);background:var(--grad-btn);
+  color:#030a01;font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;
+  letter-spacing:.4px;border:none;cursor:pointer;transition:.25s;
+  position:relative;overflow:hidden;
+  box-shadow:0 0 20px rgba(57,255,20,0.25)}
+.btn-primary::before{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;
+  background:rgba(255,255,255,0.18);transform:skewX(-20deg);transition:.5s}
+.btn-primary:hover{background:var(--grad-btn-hover);transform:translateY(-2px) scale(1.02);box-shadow:0 0 36px rgba(57,255,20,0.45)}
+.btn-primary:hover::before{left:130%}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;
+  border-radius:var(--r8);background:transparent;border:1px solid var(--border2);
+  color:var(--teal);font-family:'Poppins',sans-serif;font-weight:600;font-size:.88rem;
+  cursor:pointer;transition:.25s}
+.btn-secondary:hover{background:rgba(0,229,204,0.07);transform:translateY(-2px);box-shadow:0 0 16px rgba(0,229,204,0.15)}
+
+/* ═══════════════════════════════════════════════════════════════
+   TRUST BAR
+═══════════════════════════════════════════════════════════════ */
+.trust-bar{background:rgba(57,255,20,0.03);border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);padding:10px 20px;
+  display:flex;align-items:center;justify-content:center;gap:32px;
+  flex-wrap:wrap;position:relative;z-index:10}
+.trust-bar-item{display:flex;align-items:center;gap:8px;font-size:.77rem;
+  font-weight:500;color:var(--muted)}
+.trust-bar-item i{color:var(--green);font-size:.8rem}
+.trust-bar-item strong{color:var(--text)}
+.trust-bar-sep{width:1px;height:14px;background:var(--border)}
+
+/* ═══════════════════════════════════════════════════════════════
+   PURCHASE SECTION
+═══════════════════════════════════════════════════════════════ */
+#purchase{padding:80px 24px}
+.purchase-container{max-width:900px;margin:0 auto}
+.purchase-header{padding:22px 32px;border-bottom:1px solid var(--border);
+  background:rgba(57,255,20,0.02);display:flex;align-items:center;gap:12px;
+  border-radius:var(--r20) var(--r20) 0 0}
+.purchase-header h2{font-family:'Poppins',sans-serif;font-size:1.25rem;font-weight:700;color:#fff;letter-spacing:.3px}
+.purchase-header i{color:var(--green);font-size:1rem}
+.purchase-body{padding:30px 32px;border-radius:0 0 var(--r20) var(--r20)}
+@media(max-width:600px){.purchase-body{padding:20px 16px}.purchase-header{padding:18px 16px}}
+
+/* UC Cards */
+.uc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px}
+@media(max-width:680px){.uc-grid{grid-template-columns:repeat(2,1fr)}}
+.uc-card{border:1px solid var(--border);border-radius:var(--r12);
+  padding:12px 12px 18px;background:rgba(5,14,8,0.8);cursor:pointer;transition:.25s;
+  position:relative;overflow:hidden;text-align:center;display:flex;flex-direction:column;align-items:center}
+.uc-card:hover{border-color:rgba(57,255,20,0.35);transform:translateY(-3px) scale(1.02);
+  box-shadow:0 8px 28px rgba(0,0,0,0.3),0 0 16px rgba(57,255,20,0.08)}
+.uc-card.selected{border-color:var(--green);background:rgba(57,255,20,0.05);
+  box-shadow:0 0 20px rgba(57,255,20,0.18)}
+.uc-card.popular{border-color:rgba(255,180,0,0.4)}
+.uc-card.best-value{border-color:var(--teal);animation:glowPulse 2.5s infinite}
+.uc-badge-row{height:20px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;width:100%}
+.uc-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;
+  border-radius:100px;font-size:.57rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.uc-badge.pop{background:rgba(255,180,0,0.15);color:var(--gold);border:1px solid rgba(255,180,0,0.25)}
+.uc-badge.best{background:rgba(0,229,204,0.1);color:var(--teal);border:1px solid rgba(0,229,204,0.25)}
+.uc-icon-wrap{width:44px;height:44px;border-radius:11px;margin:0 auto 9px;
+  background:rgba(57,255,20,0.08);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.25s}
+.uc-card:hover .uc-icon-wrap{background:rgba(57,255,20,0.14);border-color:rgba(57,255,20,0.3)}
+.uc-icon-wrap i{font-size:1.2rem;color:var(--green)}
+.uc-card.popular .uc-icon-wrap i{color:var(--gold)}
+.uc-card.best-value .uc-icon-wrap{background:rgba(0,229,204,0.08);border-color:var(--border2)}
+.uc-card.best-value .uc-icon-wrap i{color:var(--teal)}
+.uc-amount{font-family:'Poppins',sans-serif;font-size:1.3rem;font-weight:700;color:#fff}
+.uc-label{font-size:.67rem;color:var(--muted);margin-bottom:8px;font-weight:500}
+.uc-price{font-size:1rem;font-weight:700;color:var(--green);font-family:'JetBrains Mono',monospace}
+.uc-original{font-size:.68rem;color:var(--muted);text-decoration:line-through;margin-top:2px}
+.uc-save{font-size:.67rem;font-weight:700;color:#39ff88;margin-top:3px}
+
+/* Form elements */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px}
+@media(max-width:560px){.form-row{grid-template-columns:1fr}}
+.form-group{display:flex;flex-direction:column;gap:7px;position:relative}
+.form-label{font-size:.7rem;font-weight:600;color:var(--muted);letter-spacing:.5px;
+  text-transform:uppercase;display:flex;align-items:center;gap:7px}
+.form-label i{color:var(--green);font-size:.78rem}
+.custom-select{position:relative}
+.custom-select-trigger{display:flex;align-items:center;justify-content:space-between;
+  gap:10px;background:var(--card2);border:1px solid var(--border);border-radius:var(--r8);
+  padding:10px 13px;color:var(--text);font-family:'Inter',sans-serif;font-size:.86rem;
+  cursor:pointer;transition:.2s;user-select:none}
+.custom-select-trigger:hover{border-color:rgba(57,255,20,0.28)}
+.custom-select-trigger.open{border-color:var(--green);box-shadow:0 0 0 2px rgba(57,255,20,0.1)}
+.cst-left{display:flex;align-items:center;gap:9px}
+.cst-arrow{transition:.25s;color:var(--green);font-size:.68rem}
+.cst-arrow.open{transform:rotate(180deg)}
+.custom-dropdown{position:absolute;top:calc(100% + 5px);left:0;right:0;z-index:300;
+  background:#091409;border:1px solid var(--border);border-radius:var(--r12);overflow:hidden;
+  box-shadow:0 16px 40px rgba(0,0,0,0.5),0 0 18px rgba(57,255,20,0.04);
+  max-height:0;opacity:0;transform:translateY(-6px);
+  transition:max-height .3s ease,opacity .22s ease,transform .22s ease;pointer-events:none}
+.custom-dropdown.open{max-height:260px;opacity:1;transform:none;pointer-events:auto}
+.dropdown-option{display:flex;align-items:center;gap:10px;padding:10px 13px;
+  cursor:pointer;transition:.14s;font-size:.84rem;color:var(--text);font-family:'Inter',sans-serif}
+.dropdown-option:hover{background:rgba(57,255,20,0.07);color:var(--green)}
+.dropdown-option.selected{background:rgba(57,255,20,0.05);color:var(--green)}
+.dropdown-option i{width:15px;text-align:center;color:var(--green);font-size:.8rem}
+.dropdown-divider{height:1px;background:var(--border);margin:3px 0}
+.input-with-flag{position:relative;display:flex;align-items:center}
+.server-flag{position:absolute;left:11px;display:flex;align-items:center;gap:7px;pointer-events:none;z-index:1}
+.server-flag img{width:20px;height:14px;border-radius:2px;object-fit:cover;border:1px solid rgba(255,255,255,0.1)}
+.server-flag-placeholder{width:20px;height:14px;border-radius:2px;
+  background:rgba(0,229,204,0.14);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center}
+.server-flag-placeholder i{font-size:.52rem;color:var(--teal)}
+.flag-sep{width:1px;height:17px;background:var(--border)}
+.form-input{background:var(--card2);border:1px solid var(--border);border-radius:var(--r8);
+  padding:10px 13px;color:var(--text);font-family:'Inter',sans-serif;font-size:.86rem;
+  outline:none;transition:.2s;width:100%}
+.form-input.has-flag{padding-left:54px}
+.form-input:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(57,255,20,0.1)}
+.form-input::placeholder{color:var(--muted)}
+.summary-box{background:rgba(57,255,20,0.025);border:1px solid var(--border);
+  border-radius:var(--r12);padding:22px;margin-top:26px}
+.summary-title{font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;
+  color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;
+  display:flex;align-items:center;gap:8px}
+.summary-title i{color:var(--green);font-size:.8rem}
+.summary-row{display:flex;justify-content:space-between;align-items:center;
+  padding:7px 0;border-bottom:1px solid rgba(57,255,20,0.06);font-size:.83rem}
+.summary-row:last-of-type{border:none}
+.summary-row .lbl{color:var(--muted)}
+.summary-row .val{color:var(--text);font-weight:600}
+.summary-total{display:flex;justify-content:space-between;align-items:center;
+  margin-top:14px;padding-top:14px;border-top:1px solid rgba(57,255,20,0.15)}
+.total-label{font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;color:#fff}
+.total-price{font-family:'JetBrains Mono',monospace;font-size:1.55rem;font-weight:700;
+  color:var(--green);text-shadow:0 0 18px rgba(57,255,20,0.4)}
+.btn-buy{width:100%;margin-top:18px;padding:15px;border-radius:var(--r8);
+  background:var(--grad-btn);color:#030a01;font-family:'Poppins',sans-serif;
+  font-weight:700;font-size:.95rem;border:none;cursor:pointer;letter-spacing:.4px;transition:.25s;
+  position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:9px;
+  box-shadow:0 0 20px rgba(57,255,20,0.2)}
+.btn-buy::before{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;
+  background:rgba(255,255,255,0.18);transform:skewX(-20deg);transition:.5s}
+.btn-buy:hover::before{left:130%}
+.btn-buy:hover{transform:translateY(-2px);box-shadow:0 0 36px rgba(57,255,20,0.42);background:var(--grad-btn-hover)}
+.required-badge{display:inline-flex;align-items:center;gap:3px;font-size:.58rem;
+  font-weight:700;color:var(--danger);background:rgba(255,68,68,0.08);
+  border:1px solid rgba(255,68,68,0.2);border-radius:100px;padding:1px 7px;
+  letter-spacing:.4px;text-transform:uppercase;margin-left:5px}
+.optional-badge{display:inline-flex;align-items:center;gap:3px;font-size:.58rem;
+  font-weight:700;color:var(--muted);background:rgba(90,122,90,0.1);
+  border:1px solid rgba(90,122,90,0.2);border-radius:100px;padding:1px 7px;
+  letter-spacing:.4px;text-transform:uppercase;margin-left:5px}
+
+/* ═══════════════════════════════════════════════════════════════
+   FEATURES / WHY US
+═══════════════════════════════════════════════════════════════ */
+#features{padding:72px 24px;background:linear-gradient(180deg,transparent,rgba(57,255,20,0.015),transparent)}
+#why{padding:72px 24px}
+.features-grid,.why-grid{max-width:1040px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+.feature-card,.why-card{background:var(--glass);border:1px solid var(--border);
+  border-radius:var(--r16);padding:26px 18px;text-align:center;transition:.3s;
+  position:relative;overflow:hidden;backdrop-filter:blur(10px)}
+.feature-card::before,.why-card::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at top,rgba(57,255,20,0.06),transparent 60%);
+  opacity:0;transition:.3s}
+.feature-card:hover,.why-card:hover{border-color:rgba(57,255,20,0.3);transform:translateY(-4px);
+  box-shadow:0 0 26px rgba(57,255,20,0.08)}
+.feature-card:hover::before,.why-card:hover::before{opacity:1}
+.feature-icon-wrap,.why-icon-wrap{width:50px;height:50px;border-radius:13px;margin:0 auto 14px;
+  background:rgba(57,255,20,0.07);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;transition:.3s}
+.why-icon-wrap{background:rgba(0,229,204,0.07);border-color:var(--border2)}
+.feature-card:hover .feature-icon-wrap{background:rgba(57,255,20,0.13);border-color:rgba(57,255,20,0.3)}
+.why-card:hover .why-icon-wrap{background:rgba(0,229,204,0.13)}
+.feature-icon-wrap i{font-size:1.25rem;color:var(--green)}
+.why-icon-wrap i{font-size:1.25rem;color:var(--teal)}
+.feature-card h3,.why-card h3{font-family:'Poppins',sans-serif;font-size:.92rem;font-weight:700;
+  color:#fff;margin-bottom:7px;letter-spacing:.3px}
+.feature-card p,.why-card p{font-size:.76rem;color:var(--muted);line-height:1.6}
+
+/* ═══════════════════════════════════════════════════════════════
+   AIRDROP — fully visible, no lock overlay
+═══════════════════════════════════════════════════════════════ */
+#airdrop{padding:72px 24px;
+  background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(255,180,0,0.03),transparent)}
+.airdrop-container{max-width:900px;margin:0 auto}
+.airdrop-header{padding:26px 32px;border-bottom:1px solid rgba(255,180,0,0.12);
+  background:rgba(255,180,0,0.025);text-align:center;border-radius:var(--r20) var(--r20) 0 0}
+.airdrop-header h2{font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:.3px}
+.airdrop-header h2 span{color:var(--gold)}
+.airdrop-header p{font-size:.88rem;color:var(--muted)}
+.airdrop-body{padding:28px 32px;border-radius:0 0 var(--r20) var(--r20)}
+@media(max-width:600px){.airdrop-body{padding:20px 14px}.airdrop-header{padding:20px 14px}}
+/* Step label */
+.airdrop-step-label{display:flex;align-items:center;gap:10px;font-family:'Poppins',sans-serif;
+  font-size:.9rem;font-weight:700;color:var(--teal);letter-spacing:.4px;
+  text-transform:uppercase;margin-bottom:18px}
+.airdrop-fields{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:6px}
+@media(max-width:560px){.airdrop-fields{grid-template-columns:1fr}}
+.btn-continue{display:inline-flex;align-items:center;gap:9px;
+  padding:13px 32px;border-radius:var(--r8);
+  background:linear-gradient(135deg,var(--teal),#009988);
+  color:#030a07;font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;border:none;cursor:pointer;
+  transition:.3s;box-shadow:0 0 18px rgba(0,229,204,0.2);position:relative;overflow:hidden}
+.btn-continue::before{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;
+  background:rgba(255,255,255,0.18);transform:skewX(-20deg);transition:.55s}
+.btn-continue:hover::before{left:130%}
+.btn-continue:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 0 30px rgba(0,229,204,0.4)}
+/* 6-card reward grid */
+.rewards-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:28px}
+@media(max-width:820px){.rewards-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:440px){.rewards-grid{grid-template-columns:repeat(2,1fr)}}
+.reward-card{background:var(--bg2);border:2px solid rgba(255,180,0,0.12);
+  border-radius:var(--r12);padding:16px 8px;text-align:center;transition:.3s;
+  position:relative;overflow:hidden;cursor:default;user-select:none}
+.reward-card::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 35%,rgba(255,220,80,0.18) 50%,transparent 65%);
+  opacity:0;pointer-events:none;transition:.12s}
+.reward-card.sweeping::before{opacity:1}
+.reward-card.active-sweep{border-color:rgba(255,200,0,0.6);background:rgba(255,180,0,0.07);
+  box-shadow:0 0 16px rgba(255,180,0,0.22)}
+.reward-card.winner{border-color:#ffd700 !important;background:rgba(255,180,0,0.11)!important;
+  box-shadow:0 0 38px rgba(255,180,0,0.45),0 0 70px rgba(255,180,0,0.18)!important;
+  animation:winnerPulse 1s ease infinite !important}
+.reward-card.jackpot{border-color:rgba(255,100,0,0.38);animation:jackpotGlow 2s infinite}
+.reward-card.jackpot.winner{animation:winnerPulse 1s ease infinite !important}
+.reward-icon{width:36px;height:36px;border-radius:9px;margin:0 auto 9px;
+  background:rgba(255,180,0,0.08);border:1px solid rgba(255,180,0,0.15);
+  display:flex;align-items:center;justify-content:center;transition:.25s}
+.reward-icon i{color:var(--gold);font-size:.95rem}
+.reward-card.jackpot .reward-icon i,.reward-card.jackpot .reward-amount{color:#ff7700}
+.reward-amount{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;color:var(--gold)}
+.reward-label{font-size:.58rem;color:var(--muted);margin-top:2px;letter-spacing:.3px;text-transform:uppercase}
+.jackpot-tag{font-size:.5rem;font-weight:700;color:#ff7700;
+  background:rgba(255,100,0,0.12);border:1px solid rgba(255,100,0,0.2);
+  padding:1px 6px;border-radius:100px;text-transform:uppercase;display:inline-block;margin-bottom:5px}
+.airdrop-cta-area{text-align:center}
+.btn-unlock{display:inline-flex;align-items:center;gap:10px;
+  padding:15px 40px;border-radius:var(--r8);
+  background:linear-gradient(135deg,#ffd700,#ff9900);
+  color:#1a0a00;font-family:'Poppins',sans-serif;font-weight:800;font-size:1rem;border:none;cursor:pointer;
+  letter-spacing:.4px;transition:.3s;box-shadow:0 0 22px rgba(255,180,0,0.22);
+  position:relative;overflow:hidden}
+.btn-unlock::before{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;
+  background:rgba(255,255,255,0.22);transform:skewX(-20deg);transition:.55s}
+.btn-unlock:hover::before{left:130%}
+.btn-unlock:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 0 38px rgba(255,180,0,0.44)}
+.btn-unlock:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+.airdrop-note{display:flex;align-items:center;gap:8px;margin-top:18px;
+  font-size:.76rem;color:var(--muted);justify-content:center;
+  background:rgba(255,180,0,0.03);border:1px solid rgba(255,180,0,0.1);
+  border-radius:var(--r8);padding:9px 14px}
+.airdrop-note i{color:var(--gold);font-size:.8rem;flex-shrink:0}
+#airdropStep1{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(255,180,0,0.1)}
+#airdropStep1.locked-step{opacity:.5;pointer-events:none}
+
+/* ═══════════════════════════════════════════════════════════════
+   MINING
+═══════════════════════════════════════════════════════════════ */
+#mining{padding:72px 24px;
+  background:radial-gradient(ellipse 70% 50% at 50% 50%,rgba(0,229,204,0.025),transparent)}
+.mining-container{max-width:780px;margin:0 auto}
+.mining-card{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.mining-card-header{padding:22px 28px;border-bottom:1px solid var(--border);
+  background:rgba(0,229,204,0.02);display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;border-radius:var(--r20) var(--r20) 0 0}
+.mining-card-header h3{font-family:'Poppins',sans-serif;font-size:1.2rem;font-weight:700;
+  color:#fff;display:flex;align-items:center;gap:10px;letter-spacing:.3px}
+.mining-card-header h3 i{color:var(--teal)}
+.mining-balance{display:flex;align-items:center;gap:10px;
+  background:rgba(0,229,204,0.06);border:1px solid var(--border2);
+  border-radius:var(--r8);padding:8px 14px}
+.mining-balance .bal-label{font-size:.68rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.mining-balance .bal-value{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:700;color:var(--teal)}
+.mining-body{padding:26px 28px;border-radius:0 0 var(--r20) var(--r20)}
+@media(max-width:560px){.mining-body{padding:18px 14px}.mining-card-header{padding:16px 14px}}
+.speed-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:22px}
+@media(max-width:480px){.speed-selector{grid-template-columns:1fr}}
+.speed-btn{border:1px solid var(--border);border-radius:var(--r8);
+  padding:13px 9px;text-align:center;cursor:pointer;transition:.25s;background:var(--card2)}
+.speed-btn:hover{border-color:rgba(0,229,204,0.3);transform:translateY(-2px)}
+.speed-btn.active{border-color:var(--teal);background:rgba(0,229,204,0.06);
+  box-shadow:0 0 14px rgba(0,229,204,0.1)}
+.speed-btn .sp-rate{font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:700;color:var(--teal);margin-bottom:3px}
+.speed-btn .sp-req{font-size:.67rem;color:var(--muted);line-height:1.4}
+.speed-btn .sp-tag{font-size:.58rem;font-weight:700;color:var(--teal);
+  background:rgba(0,229,204,0.1);border:1px solid rgba(0,229,204,0.2);
+  border-radius:100px;padding:1px 8px;margin-top:5px;display:inline-block}
+.progress-section{margin-bottom:20px}
+.progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;font-size:.78rem}
+.progress-header .prog-label{color:var(--muted);display:flex;align-items:center;gap:6px}
+.progress-header .prog-label i{color:var(--teal);font-size:.72rem}
+.progress-header .prog-pct{color:var(--teal);font-weight:700;font-family:'JetBrains Mono',monospace}
+.progress-track{height:7px;background:rgba(0,229,204,0.07);border-radius:100px;overflow:hidden}
+.progress-fill{height:100%;border-radius:100px;
+  background:linear-gradient(90deg,var(--teal),var(--green));width:0%;transition:width .5s ease;
+  box-shadow:0 0 7px rgba(0,229,204,0.5);position:relative;overflow:hidden}
+.progress-fill::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.28),transparent);
+  animation:shimmerBar 2s infinite}
+.mining-timer{display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:11px;background:rgba(0,229,204,0.03);border:1px solid var(--border2);
+  border-radius:var(--r8);margin-bottom:20px;font-size:.83rem;color:var(--muted)}
+.mining-timer i{color:var(--teal);font-size:.82rem}
+#miningTimerDisplay{font-family:'JetBrains Mono',monospace;color:var(--teal);font-weight:700}
+.mining-btn-row{display:flex;gap:11px;flex-wrap:wrap}
+.btn-start-mining{flex:1;display:flex;align-items:center;justify-content:center;gap:9px;
+  padding:13px 22px;border-radius:var(--r8);
+  background:linear-gradient(135deg,var(--teal),#009988);
+  color:#030a07;font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;border:none;cursor:pointer;
+  transition:.3s;min-width:140px;position:relative;overflow:hidden}
+.btn-start-mining:hover{transform:translateY(-2px);box-shadow:0 0 26px rgba(0,229,204,0.35)}
+.btn-withdraw{display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 20px;border-radius:var(--r8);border:1px solid var(--border2);
+  background:transparent;color:var(--teal);font-family:'Poppins',sans-serif;font-weight:600;font-size:.86rem;
+  cursor:not-allowed;transition:.25s;opacity:.5;min-width:120px}
+.btn-withdraw.enabled{cursor:pointer;opacity:1}
+.btn-withdraw.enabled:hover{background:rgba(0,229,204,0.07);transform:translateY(-1px)}
+.mining-warning{display:flex;align-items:flex-start;gap:9px;
+  padding:11px 14px;background:rgba(0,229,204,0.02);border:1px solid rgba(0,229,204,0.1);
+  border-radius:var(--r8);margin-top:16px;font-size:.77rem;color:var(--muted);line-height:1.6}
+.mining-warning i{color:var(--teal);margin-top:2px;flex-shrink:0}
+.min-withdraw-note{font-size:.72rem;color:var(--muted);text-align:center;
+  margin-top:9px;display:flex;align-items:center;justify-content:center;gap:6px}
+.min-withdraw-note i{color:var(--gold);font-size:.68rem}
+
+/* ═══════════════════════════════════════════════════════════════
+   REVIEWS
+═══════════════════════════════════════════════════════════════ */
+#reviews{padding:72px 24px}
+.reviews-container{max-width:940px;margin:0 auto;overflow:hidden;position:relative}
+.reviews-track{display:flex;gap:16px;animation:slide 22s linear infinite;width:max-content}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.reviews-track:hover{animation-play-state:paused}
+.review-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r16);
+  padding:20px;min-width:248px;max-width:248px;flex-shrink:0;transition:.25s;backdrop-filter:blur(8px)}
+.review-card:hover{border-color:rgba(57,255,20,0.22);transform:translateY(-3px)}
+.stars{display:flex;gap:3px;margin-bottom:11px}
+.stars i{font-size:.82rem;color:var(--gold)}
+.review-text{font-size:.8rem;color:var(--text);line-height:1.65;margin-bottom:14px;font-style:italic}
+.reviewer{display:flex;align-items:center;gap:9px}
+.avatar{width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green),var(--teal));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Poppins',sans-serif;font-weight:700;font-size:.78rem;color:#030a07;flex-shrink:0}
+.reviewer-info h4{font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:700;color:#fff}
+.verified{font-size:.65rem;color:var(--green);display:flex;align-items:center;gap:4px}
+.fade-left,.fade-right{position:absolute;top:0;bottom:0;width:64px;z-index:5;pointer-events:none}
+.fade-left{left:0;background:linear-gradient(to right,var(--bg),transparent)}
+.fade-right{right:0;background:linear-gradient(to left,var(--bg),transparent)}
+
+/* ═══════════════════════════════════════════════════════════════
+   REVIEW FORM
+═══════════════════════════════════════════════════════════════ */
+#review-form{padding:60px 24px;background:rgba(57,255,20,0.008)}
+.review-form-card{max-width:600px;margin:0 auto;padding:32px}
+.star-rating{display:flex;gap:6px;flex-direction:row-reverse;justify-content:flex-end}
+.star-rating input{display:none}
+.star-rating label{font-size:1.4rem;color:var(--muted);cursor:pointer;transition:.14s}
+.star-rating label:hover,.star-rating label:hover~label,.star-rating input:checked~label{color:var(--gold)}
+.form-textarea{background:var(--card2);border:1px solid var(--border);border-radius:var(--r8);
+  padding:11px 13px;color:var(--text);font-family:'Inter',sans-serif;font-size:.86rem;
+  outline:none;transition:.2s;width:100%;resize:vertical;min-height:85px}
+.form-textarea:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(57,255,20,0.1)}
+.form-textarea::placeholder{color:var(--muted)}
+.btn-submit{display:inline-flex;align-items:center;gap:9px;padding:12px 26px;
+  border-radius:var(--r8);background:var(--grad-btn);color:#030a01;
+  font-family:'Poppins',sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;
+  transition:.25s;box-shadow:0 0 16px rgba(57,255,20,0.18)}
+.btn-submit:hover{transform:translateY(-1px);box-shadow:0 0 28px rgba(57,255,20,0.36);background:var(--grad-btn-hover)}
+
+/* ═══════════════════════════════════════════════════════════════
+   FAQ
+═══════════════════════════════════════════════════════════════ */
+#faq{padding:72px 24px}
+.faq-container{max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.faq-item{background:var(--glass);border:1px solid var(--border);border-radius:var(--r12);overflow:hidden;transition:.2s;backdrop-filter:blur(8px)}
+.faq-item.open{border-color:rgba(57,255,20,0.22)}
+.faq-question{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;cursor:pointer;transition:.18s;gap:12px}
+.faq-question:hover{background:rgba(57,255,20,0.025)}
+.faq-q-left{display:flex;align-items:center;gap:11px}
+.faq-q-icon{width:30px;height:30px;border-radius:8px;background:rgba(57,255,20,0.07);
+  border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.faq-q-icon i{color:var(--green);font-size:.76rem}
+.faq-question h4{font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:600;color:#fff}
+.faq-chevron{transition:.3s;color:var(--green);font-size:.72rem;flex-shrink:0}
+.faq-item.open .faq-chevron{transform:rotate(180deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:.34s ease}
+.faq-item.open .faq-answer{max-height:200px}
+.faq-answer-inner{padding:0 20px 16px 61px;font-size:.83rem;color:var(--muted);line-height:1.65}
+
+/* ═══════════════════════════════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════════════════════════════ */
+#about{padding:60px 24px}
+.about-card{max-width:760px;margin:0 auto;padding:44px;
+  display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center}
+@media(max-width:600px){.about-card{grid-template-columns:1fr;text-align:center;padding:28px}}
+.about-icon-big{width:76px;height:76px;border-radius:18px;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(57,255,20,0.1),rgba(0,229,204,0.07));
+  border:1px solid rgba(0,229,204,0.2);display:flex;align-items:center;justify-content:center}
+.about-icon-big i{font-size:2rem;color:var(--green)}
+.about-text h2{font-family:'Poppins',sans-serif;font-size:1.6rem;font-weight:800;color:#fff;margin-bottom:11px;letter-spacing:.3px}
+.about-text h2 span{color:var(--green)}
+.about-text p{font-size:.88rem;color:var(--muted);line-height:1.75}
+.about-stats{display:flex;gap:24px;margin-top:18px;flex-wrap:wrap}
+.about-stat .num{font-family:'JetBrains Mono',monospace;font-size:1.25rem;font-weight:700;color:var(--green)}
+.about-stat .lbl{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+
+/* ═══════════════════════════════════════════════════════════════
+   POWERED BY — single row, small icons
+═══════════════════════════════════════════════════════════════ */
+#powered{padding:52px 24px;border-top:1px solid var(--border)}
+.powered-container{max-width:860px;margin:0 auto}
+.powered-grid{display:flex;flex-direction:row;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:28px}
+.powered-item{display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:12px 16px;background:var(--glass);border:1px solid var(--border);
+  border-radius:var(--r12);cursor:default;transition:.25s;min-width:72px;backdrop-filter:blur(8px)}
+.powered-item:hover{border-color:rgba(57,255,20,0.22);transform:translateY(-3px);
+  box-shadow:0 0 18px rgba(57,255,20,0.07)}
+.powered-icon{width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  filter:grayscale(100%) brightness(0.55);transition:.25s}
+.powered-item:hover .powered-icon{filter:grayscale(0%) brightness(1)}
+.powered-icon svg{width:26px;height:26px}
+.powered-label{font-size:.62rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px;text-align:center;transition:.2s}
+.powered-item:hover .powered-label{color:var(--green)}
+
+/* ═══════════════════════════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════════════════════════ */
+.modal-overlay{position:fixed;inset:0;z-index:1000;
+  background:rgba(0,0,0,0.88);backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:rgba(8,18,11,0.97);border:1px solid var(--border);border-radius:var(--r20);
+  width:100%;max-width:470px;max-height:90vh;overflow-y:auto;position:relative;
+  animation:modalIn .3s ease both;backdrop-filter:blur(16px)}
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between}
+.modal-header-left{display:flex;align-items:center;gap:10px}
+.modal-header h3{font-family:'Poppins',sans-serif;font-size:1.2rem;font-weight:700;color:#fff}
+.modal-header i{color:var(--green);font-size:.95rem}
+.modal-close{width:30px;height:30px;border-radius:var(--r8);
+  background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  color:var(--muted);font-size:.86rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:.2s}
+.modal-close:hover{color:#fff;border-color:var(--green)}
+.modal-body{padding:22px 24px}
+.order-row{display:flex;justify-content:space-between;align-items:center;
+  padding:8px 0;border-bottom:1px solid rgba(57,255,20,0.06);font-size:.82rem}
+.order-row .k{color:var(--muted);display:flex;align-items:center;gap:7px}
+.order-row .k i{font-size:.74rem;color:var(--green);width:13px}
+.order-row .v{color:#fff;font-weight:600}
+.order-total-row{display:flex;justify-content:space-between;padding:13px 0 16px}
+.order-total-row .k{font-size:.95rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:7px}
+.order-total-row .k i{color:var(--green)}
+.order-total-row .v{font-family:'JetBrains Mono',monospace;font-size:1.35rem;color:var(--green);font-weight:700}
+.qr-section{display:none;flex-direction:column;align-items:center;gap:13px;
+  margin-top:16px;padding:18px;background:rgba(57,255,20,0.02);
+  border:1px dashed rgba(57,255,20,0.14);border-radius:var(--r12)}
+.qr-section.show{display:flex}
+.qr-box{width:132px;height:132px;background:#fff;border-radius:var(--r8);
+  display:flex;align-items:center;justify-content:center;padding:8px}
+.qr-box img{width:100%;height:100%;object-fit:contain}
+.wallet-addr{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--teal);
+  background:rgba(0,229,204,0.05);border:1px solid rgba(0,229,204,0.14);
+  border-radius:var(--r8);padding:9px 13px;word-break:break-all;text-align:center;width:100%}
+.copy-btn{display:flex;align-items:center;gap:7px;padding:6px 16px;
+  border-radius:6px;background:rgba(0,229,204,0.07);border:1px solid rgba(0,229,204,0.18);
+  color:var(--teal);font-size:.76rem;font-weight:700;cursor:pointer;transition:.18s;font-family:'Inter',sans-serif}
+.copy-btn:hover{background:rgba(0,229,204,0.14)}
+.upload-area{margin-top:14px;border:2px dashed rgba(57,255,20,0.16);border-radius:var(--r8);
+  padding:22px;text-align:center;cursor:pointer;transition:.2s;position:relative}
+.upload-area.required-glow{border-color:rgba(255,68,68,0.5);animation:uploadAlert .4s ease 2}
+@keyframes uploadAlert{0%,100%{border-color:rgba(255,68,68,0.5)}50%{border-color:rgba(255,68,68,0.9)}}
+.upload-area:hover{border-color:var(--green);background:rgba(57,255,20,0.02)}
+.upload-area.has-file{border-color:var(--green);border-style:solid;background:rgba(57,255,20,0.03)}
+.upload-area-icon{width:38px;height:38px;border-radius:9px;margin:0 auto 9px;
+  background:rgba(57,255,20,0.07);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center}
+.upload-area-icon i{color:var(--green);font-size:.95rem}
+.upload-area p{color:var(--muted);font-size:.77rem;margin-top:5px}
+.upload-area strong{color:var(--text);font-size:.83rem}
+.confirm-btn{width:100%;margin-top:16px;padding:13px;border-radius:var(--r8);
+  background:var(--grad-btn);color:#030a01;
+  font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;border:none;cursor:pointer;
+  transition:.25s;display:flex;align-items:center;justify-content:center;gap:9px;
+  box-shadow:0 0 16px rgba(57,255,20,0.18)}
+.confirm-btn:hover{background:var(--grad-btn-hover);transform:translateY(-1px);box-shadow:0 0 28px rgba(57,255,20,0.36)}
+.success-msg{display:none;text-align:center;padding:26px 14px}
+.success-msg.show{display:block}
+.success-icon-wrap{width:60px;height:60px;border-radius:50%;margin:0 auto 18px;
+  background:rgba(57,255,20,0.08);border:2px solid rgba(57,255,20,0.3);
+  display:flex;align-items:center;justify-content:center;animation:bounce .5s ease both}
+@keyframes bounce{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+.success-icon-wrap i{font-size:1.5rem;color:var(--green)}
+.success-msg h3{font-family:'Poppins',sans-serif;font-size:1.3rem;color:#fff;margin-bottom:9px}
+.success-msg p{font-size:.84rem;color:var(--muted);line-height:1.7}
+.spinner{width:17px;height:17px;border-radius:50%;border:2px solid rgba(3,10,1,.3);
+  border-top-color:#030a01;animation:spin .6s linear infinite;display:inline-block}
+
+/* ═══════════════════════════════════════════════════════════════
+   UPSELL
+═══════════════════════════════════════════════════════════════ */
+.upsell-overlay{position:fixed;inset:0;z-index:800;
+  background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);
+  display:none;align-items:flex-end;justify-content:center;padding:20px}
+.upsell-overlay.show{display:flex}
+.upsell-card{background:rgba(8,18,11,0.97);border:1px solid rgba(57,255,20,0.22);
+  border-radius:var(--r20);padding:26px;max-width:440px;width:100%;
+  animation:upsellIn .4s cubic-bezier(.34,1.56,.64,1) both;
+  box-shadow:0 0 36px rgba(57,255,20,0.08),0 20px 60px rgba(0,0,0,0.5)}
+.upsell-close{float:right;background:none;border:none;color:var(--muted);font-size:.95rem;cursor:pointer;padding:2px 6px;transition:.2s}
+.upsell-close:hover{color:#fff}
+.upsell-icon{width:50px;height:50px;border-radius:13px;margin:0 auto 14px;
+  background:linear-gradient(135deg,rgba(57,255,20,0.1),rgba(0,229,204,0.07));
+  border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.upsell-icon i{font-size:1.35rem;color:var(--green)}
+.upsell-card h4{font-family:'Poppins',sans-serif;font-size:1.2rem;font-weight:700;color:#fff;text-align:center;margin-bottom:7px}
+.upsell-card p{font-size:.83rem;color:var(--muted);text-align:center;line-height:1.65;margin-bottom:18px}
+.upsell-card p strong{color:var(--green)}
+.btn-upsell{width:100%;padding:13px;border-radius:var(--r8);background:var(--grad-btn);
+  color:#030a01;font-family:'Poppins',sans-serif;font-weight:700;font-size:.92rem;border:none;cursor:pointer;
+  transition:.25s;display:flex;align-items:center;justify-content:center;gap:9px;
+  animation:upsellGlow 2s infinite}
+.btn-upsell:hover{background:var(--grad-btn-hover);transform:translateY(-2px) scale(1.02)}
+.upsell-dismiss{display:block;text-align:center;margin-top:11px;font-size:.73rem;color:var(--muted);cursor:pointer;transition:.18s}
+.upsell-dismiss:hover{color:var(--text)}
+
+/* ═══════════════════════════════════════════════════════════════
+   LIVE NOTIF
+═══════════════════════════════════════════════════════════════ */
+.notif-container{position:fixed;bottom:22px;left:18px;z-index:500;display:flex;flex-direction:column;gap:7px}
+.notif{display:flex;align-items:center;gap:10px;
+  background:rgba(8,18,11,0.97);border:1px solid var(--border);border-left:3px solid var(--green);
+  border-radius:var(--r8);padding:10px 13px;min-width:232px;max-width:265px;
+  backdrop-filter:blur(14px);animation:notifIn .4s ease both;
+  box-shadow:0 8px 22px rgba(0,0,0,0.4);font-size:.76rem}
+@keyframes notifIn{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+.notif-avatar{width:28px;height:28px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green),var(--teal));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Poppins',sans-serif;font-weight:700;font-size:.72rem;color:#030a07;flex-shrink:0}
+.notif-text{color:var(--text);line-height:1.4}
+.notif-text span{color:var(--green);font-weight:700}
+.notif-time{font-size:.64rem;color:var(--muted);margin-top:2px}
+.confetti-piece{position:fixed;border-radius:2px;top:-10px;
+  animation:confettiFall 2.5s ease forwards;pointer-events:none;z-index:9999}
+
+/* ═══════════════════════════════════════════════════════════════
+   FOOTER — Glassmorphism + Trust
+═══════════════════════════════════════════════════════════════ */
+footer{position:relative;z-index:2;
+  background:rgba(5,14,8,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--border)}
+.footer-inner{max-width:900px;margin:0 auto;padding:40px 24px 28px}
+.footer-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;margin-bottom:32px}
+@media(max-width:640px){.footer-top{grid-template-columns:1fr;gap:24px}}
+.footer-logo{font-family:'Poppins',sans-serif;font-size:1.4rem;font-weight:800;
+  color:var(--green);text-shadow:0 0 14px var(--glow);letter-spacing:.5px;margin-bottom:8px}
+.footer-logo span{color:var(--teal)}
+.footer-desc{font-size:.78rem;color:var(--muted);line-height:1.65}
+.footer-col h5{font-family:'Poppins',sans-serif;font-size:.78rem;font-weight:700;
+  color:var(--text);letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.footer-col ul li a{font-size:.76rem;color:var(--muted);text-decoration:none;transition:.18s}
+.footer-col ul li a:hover{color:var(--green)}
+/* Security zone */
+.footer-security{padding:18px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:20px}
+.security-label{display:flex;align-items:center;gap:8px;font-size:.76rem;font-weight:600;color:var(--muted)}
+.security-label i{color:var(--green);font-size:.85rem}
+.security-icons{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sec-badge{display:flex;align-items:center;gap:6px;padding:6px 12px;
+  border-radius:var(--r8);border:1px solid var(--border);background:rgba(57,255,20,0.025);
+  filter:grayscale(100%) brightness(0.6);transition:.28s;cursor:default}
+.sec-badge:hover{filter:grayscale(0%) brightness(1);border-color:rgba(57,255,20,0.25);
+  box-shadow:0 0 12px rgba(57,255,20,0.08)}
+.sec-badge i{font-size:.9rem}
+.sec-badge span{font-size:.68rem;font-weight:700;letter-spacing:.3px;color:var(--text)}
+.visa-badge i{color:#1a1f71}
+.mc-badge i{color:#eb001b}
+.ssl-badge i{color:var(--green)}
+/* Payment wallets row in footer */
+.footer-wallets{display:flex;flex-direction:row;flex-wrap:wrap;gap:8px;margin-top:4px}
+.footer-wallet-item{display:flex;align-items:center;gap:5px;padding:5px 10px;
+  border-radius:var(--r8);border:1px solid var(--border);background:var(--glass);
+  filter:grayscale(100%) brightness(0.55);transition:.25s}
+.footer-wallet-item:hover{filter:grayscale(0%) brightness(1);border-color:rgba(57,255,20,0.22)}
+.footer-wallet-item svg{width:18px;height:18px}
+.footer-wallet-item span{font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase}
+.footer-bottom{text-align:center;font-size:.72rem;color:var(--muted);line-height:1.7}
+.footer-bottom strong{color:var(--text)}
+/* ── HOW IT WORKS MODAL ─── */
+.hiw-btn{display:inline-flex;align-items:center;gap:8px;
+  margin-top:14px;padding:9px 22px;border-radius:100px;
+  background:transparent;border:1px solid rgba(57,255,20,0.3);
+  color:var(--teal);font-family:'Poppins',sans-serif;font-size:.82rem;
+  font-weight:600;cursor:pointer;transition:.25s;letter-spacing:.3px}
+.hiw-btn:hover{background:rgba(0,229,204,0.07);border-color:var(--teal);
+  transform:translateY(-1px);box-shadow:0 0 14px rgba(0,229,204,0.15)}
+.hiw-btn i{font-size:.85rem}
+.hiw-overlay{position:fixed;inset:0;z-index:900;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;padding:20px}
+.hiw-overlay.open{display:flex}
+.hiw-modal{
+  background:rgba(8,18,11,0.98);
+  border:1px solid var(--border);
+  border-radius:var(--r20);
+  width:100%;
+  max-width:480px;
+  max-height:90vh;
+  overflow-y:auto;
+  animation:modalIn .3s ease both;
+  backdrop-filter:blur(16px);
+  display:flex;
+  flex-direction:column;
+}
+.hiw-header{padding:20px 24px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between}
+.hiw-header h3{font-family:'Poppins',sans-serif;font-size:1.15rem;
+  font-weight:700;color:#fff;display:flex;align-items:center;gap:9px}
+.hiw-header h3 i{color:var(--green)}
+.hiw-close{width:30px;height:30px;border-radius:var(--r8);
+  background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  color:var(--muted);cursor:pointer;display:flex;align-items:center;
+  justify-content:center;font-size:.85rem;transition:.2s}
+.hiw-close:hover{color:#fff;border-color:var(--green)}
+.hiw-body{
+  padding:24px;
+  overflow-y:auto;
+  flex:1;
+}
+.hiw-step{display:flex;gap:16px;margin-bottom:22px;align-items:flex-start}
+.hiw-step:last-child{margin-bottom:0}
+.hiw-num{width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--green),var(--teal));
+  color:#030a01;font-family:'Poppins',sans-serif;font-weight:800;
+  font-size:.88rem;display:flex;align-items:center;justify-content:center}
+.hiw-step-text h4{font-family:'Poppins',sans-serif;font-size:.9rem;
+  font-weight:700;color:#fff;margin-bottom:4px}
+.hiw-step-text p{font-size:.78rem;color:var(--muted);line-height:1.6}
+.hiw-footer-note{margin-top:20px;padding:12px 16px;
+  background:rgba(57,255,20,0.03);border:1px solid var(--border);
+  border-radius:var(--r8);font-size:.76rem;color:var(--muted);
+  display:flex;align-items:flex-start;gap:8px;line-height:1.6}
+.hiw-footer-note i{color:var(--green);flex-shrink:0;margin-top:2px}
+
+/* ── CONTACT FLOAT ─── */
+.contact-float{position:fixed;bottom:24px;right:20px;z-index:600;
+  display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.contact-fab{display:flex;align-items:center;gap:9px;
+  padding:11px 18px;border-radius:100px;
+  background:linear-gradient(135deg,var(--green),#1a9600);
+  color:#030a01;font-family:'Poppins',sans-serif;font-weight:700;
+  font-size:.82rem;border:none;cursor:pointer;transition:.3s;
+  box-shadow:0 4px 20px rgba(57,255,20,0.3),0 0 0 0 rgba(57,255,20,0.4);
+  animation:fabPulseRing 2.5s infinite}
+@keyframes fabPulseRing{
+  0%{box-shadow:0 4px 20px rgba(57,255,20,0.3),0 0 0 0 rgba(57,255,20,0.35)}
+  60%{box-shadow:0 4px 20px rgba(57,255,20,0.3),0 0 0 10px rgba(57,255,20,0)}
+  100%{box-shadow:0 4px 20px rgba(57,255,20,0.3),0 0 0 0 rgba(57,255,20,0)}
+}
+.contact-fab:hover{transform:translateY(-2px) scale(1.05);
+  box-shadow:0 6px 28px rgba(57,255,20,0.45)}
+.contact-fab i{font-size:.9rem}
+
+/* Contact Panel */
+.contact-panel{display:none;flex-direction:column;
+  background:rgba(8,18,11,0.98);border:1px solid var(--border);
+  border-radius:var(--r16);width:300px;
+  box-shadow:0 16px 48px rgba(0,0,0,0.5),0 0 24px rgba(57,255,20,0.06);
+  backdrop-filter:blur(16px);animation:upsellIn .3s cubic-bezier(.34,1.56,.64,1) both;
+  overflow:hidden}
+.contact-panel.open{display:flex}
+.contact-panel-header{padding:16px 18px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(57,255,20,0.025)}
+.contact-panel-header h4{font-family:'Poppins',sans-serif;font-size:.95rem;
+  font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
+.contact-panel-header h4 i{color:var(--green)}
+.cp-close{background:none;border:none;color:var(--muted);
+  font-size:.9rem;cursor:pointer;padding:2px 5px;transition:.18s}
+.cp-close:hover{color:#fff}
+.contact-panel-body{padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.cp-quick{display:flex;gap:8px;margin-bottom:2px}
+.cp-social-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;
+  padding:10px 8px;border-radius:var(--r8);border:none;cursor:pointer;
+  font-family:'Poppins',sans-serif;font-weight:700;font-size:.78rem;transition:.25s}
+.cp-tg{background:rgba(0,136,204,0.15);color:#29b6f6;border:1px solid rgba(0,136,204,0.25)}
+.cp-tg:hover{background:rgba(0,136,204,0.25);transform:translateY(-1px)}
+.cp-wa{background:rgba(37,211,102,0.12);color:#25d366;border:1px solid rgba(37,211,102,0.22)}
+.cp-wa:hover{background:rgba(37,211,102,0.22);transform:translateY(-1px)}
+.cp-divider{display:flex;align-items:center;gap:10px;font-size:.7rem;color:var(--muted)}
+.cp-divider::before,.cp-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.cp-field label{font-size:.68rem;font-weight:600;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px}
+.cp-input{width:100%;background:rgba(5,14,8,0.9);border:1px solid var(--border);
+  border-radius:var(--r8);padding:9px 12px;color:var(--text);
+  font-family:'Inter',sans-serif;font-size:.82rem;outline:none;transition:.18s}
+.cp-input:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(57,255,20,0.08)}
+.cp-input::placeholder{color:var(--muted)}
+.cp-textarea{resize:vertical;min-height:72px}
+.cp-submit{width:100%;padding:11px;border-radius:var(--r8);
+  background:var(--grad-btn);color:#030a01;
+  font-family:'Poppins',sans-serif;font-weight:700;font-size:.85rem;
+  border:none;cursor:pointer;transition:.25s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 0 14px rgba(57,255,20,0.15)}
+.cp-submit:hover{background:var(--grad-btn-hover);transform:translateY(-1px);
+  box-shadow:0 0 24px rgba(57,255,20,0.3)}
+.cp-success{display:none;text-align:center;padding:16px 10px}
+.cp-success.show{display:block}
+.cp-success i{font-size:2rem;color:var(--green);margin-bottom:10px;display:block}
+.cp-success p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.cp-success strong{color:var(--green)}
+.option-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    vertical-align: middle;
+    border-radius: 50%; /* لجعل اللوجو دائري إذا أردت */
+    object-fit: contain;
+}
+
+.dropdown-option {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+}
+/* Coming Soon Overlay */
+.coming-overlay{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.65);
+  backdrop-filter:blur(4px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:50;
+  border-radius:20px;
+}
+
+.coming-overlay i{
+  font-size:40px;
+  color:#39FF14;
+  margin-bottom:10px;
+}
+
+.coming-overlay h3{
+  color:#fff;
+  font-family:Poppins;
+  margin-bottom:5px;
+}
+
+.coming-overlay p{
+  color:#aaa;
+  font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="logo">FlashUSDT<span>Vault</span></div>
+  <div class="nav-center">
+    <a href="#hero" class="nav-link active" onclick="smoothNav(event,'hero')"><i class="fa-solid fa-house"></i> Home</a>
+    <a href="#purchase" class="nav-link" onclick="smoothNav(event,'purchase')"><i class="fa-solid fa-cart-shopping"></i> Buy Flash USDT</a>
+    <a href="#airdrop" class="nav-link" onclick="smoothNav(event,'airdrop')"><i class="fa-solid fa-gift"></i> Airdrop</a>
+    <a href="#mining" class="nav-link" onclick="smoothNav(event,'mining')"><i class="fa-solid fa-microchip"></i> Free Flash USDT</a>
+  </div>
+  <div class="nav-right">
+    <a href="#purchase" class="nav-cta" onclick="smoothNav(event,'purchase')"><i class="fa-solid fa-bolt"></i> Buy Now</a>
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#hero" class="mobile-link" onclick="smoothNav(event,'hero');closeMobileMenu()"><i class="fa-solid fa-house"></i> Home</a>
+  <a href="#purchase" class="mobile-link" onclick="smoothNav(event,'purchase');closeMobileMenu()"><i class="fa-solid fa-cart-shopping"></i> Buy Flash USDT</a>
+  <a href="#airdrop" class="mobile-link" onclick="smoothNav(event,'airdrop');closeMobileMenu()"><i class="fa-solid fa-gift"></i> Airdrop</a>
+  <a href="#mining" class="mobile-link" onclick="smoothNav(event,'mining');closeMobileMenu()"><i class="fa-solid fa-microchip"></i> Free Flash USDT</a>
+  <a href="#purchase" class="mobile-cta" onclick="smoothNav(event,'purchase');closeMobileMenu()"><i class="fa-solid fa-bolt"></i> Buy Flash USDT Now</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot"></span> LIVE &mdash; Instant Delivery Active</div>
+    <h1 class="hero-title">Get Flash USDT Instantly<br>at the <span class="accent">Best Prices</span></h1>
+    <p class="hero-sub">Fast, secure, and trusted by thousands of Traders worldwide. Top up in minutes, play without limits.</p>
+    <div class="hero-cta-wrap">
+      <button class="btn-primary" onclick="smoothNav(null,'purchase')"><i class="fa-solid fa-bolt"></i> Buy Flash USDT Now</button>
+      <button class="btn-secondary" onclick="smoothNav(null,'reviews')"><i class="fa-solid fa-star"></i> See Reviews</button>
+    </div>
+    <div class="trust-badges">
+      <div class="trust-item"><div class="trust-check"><i class="fa-solid fa-check"></i></div> Instant Delivery</div>
+      <div class="trust-item"><div class="trust-check"><i class="fa-solid fa-check"></i></div> Secure Payment</div>
+      <div class="trust-item"><div class="trust-check"><i class="fa-solid fa-check"></i></div> 24/7 Support</div>
+      <div class="trust-item"><div class="trust-check"><i class="fa-solid fa-check"></i></div> 50K+ Traders</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-bar-item"><i class="fa-solid fa-users"></i> Trusted by <strong>50,000+</strong>&nbsp;Traders</div>
+  <div class="trust-bar-sep"></div>
+  <div class="trust-bar-item"><i class="fa-solid fa-shield-halved"></i> Secure &bull; Fast &bull; Verified</div>
+  <div class="trust-bar-sep"></div>
+  <div class="trust-bar-item"><i class="fa-solid fa-bolt"></i> <strong>Instant Delivery</strong>&nbsp;Available</div>
+  <div class="trust-bar-sep"></div>
+  <div class="trust-bar-item"><i class="fa-solid fa-circle-check" style="color:var(--teal)"></i> 99.8% Success Rate</div>
+</div>
+
+<!-- SECTION ORDER: 1. Purchase -->
+<section id="purchase" style="padding:80px 24px">
+  <div class="section-header reveal">
+    <div class="section-label"><i class="fa-solid fa-coins"></i> Top Up Now</div>
+    <h2 class="section-title">Choose Your <span class="g">Flash USDT Package</span></h2>
+    <button class="hiw-btn" onclick="openHIW()">
+  <i class="fa-solid fa-circle-play"></i> How It Works
+</button>
+  </div>
+  <div class="purchase-container glass-card reveal">
+    <div class="purchase-header">
+      <i class="fa-solid fa-sliders"></i>
+      <h2>Configure Your Order</h2>
+    </div>
+    <div class="purchase-body">
+      <div class="form-label" style="margin-bottom:11px"><i class="fa-solid fa-layer-group"></i> 1. Select USDT Amount</div>
+      <div class="uc-grid" id="ucGrid">
+        <div class="uc-card" data-uc="50000" data-price="25" onclick="selectUC(this)">
+          <div class="uc-badge-row"></div>
+          <div class="uc-icon-wrap"><i class="fa-solid fa-gem"></i></div>
+          <div class="uc-amount">50,000 USDT</div><div class="uc-label">Starter Pack</div>
+          <div class="uc-price">$25</div>
+        </div>
+        <div class="uc-card popular" data-uc="100000" data-price="40" onclick="selectUC(this)">
+          <div class="uc-badge-row"><span class="uc-badge pop"><i class="fa-solid fa-fire" style="font-size:.44rem"></i> Most Popular</span></div>
+          <div class="uc-icon-wrap"><i class="fa-solid fa-diamond"></i></div>
+          <div class="uc-amount">100,000 USDT</div><div class="uc-label">Fan Favorite</div>
+          <div class="uc-price">$40</div><div class="uc-original">$50</div><div class="uc-save">Save $10 (20%)</div>
+        </div>
+        <div class="uc-card best-value selected" data-uc="250000" data-price="80" onclick="selectUC(this)">
+          <div class="uc-badge-row"><span class="uc-badge best"><i class="fa-solid fa-star" style="font-size:.44rem"></i> Best Value</span></div>
+          <div class="uc-icon-wrap"><i class="fa-solid fa-trophy"></i></div>
+          <div class="uc-amount">250,000</div><div class="uc-label">Best Deal</div>
+          <div class="uc-price">$80</div><div class="uc-original">$125</div><div class="uc-save">Save $45 (36%)</div>
+        </div>
+        <div class="uc-card" data-uc="500000" data-price="150" onclick="selectUC(this)">
+          <div class="uc-badge-row"></div>
+          <div class="uc-icon-wrap"><i class="fa-solid fa-crown"></i></div>
+          <div class="uc-amount">500,000 USDT</div><div class="uc-label">Elite Pack</div>
+          <div class="uc-price">$150</div><div class="uc-original">$250</div><div class="uc-save">Save $100 (60%)</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label"><i class="fa-solid fa-gauge-high"></i> 2. Visibility Duration</label>
+          <div class="custom-select" id="deliverySelect">
+            <div class="custom-select-trigger" onclick="toggleSelect('deliverySelect')">
+              <div class="cst-left"><i class="fa-solid fa-clock" style="color:var(--green);width:15px;font-size:.8rem"></i><span id="deliveryLabel">24 Hours (Standard)</span></div>
+              <i class="fa-solid fa-chevron-down cst-arrow" id="deliveryArrow"></i>
+            </div>
+            <div class="custom-dropdown" id="deliveryDropdown">
+              <div class="dropdown-option" data-val="24h" data-mult="1" data-label="24 Hours (Standard)" onclick="pickDelivery(this)"><i class="fa-solid fa-clock"></i> 24 Hours (Standard)</div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-option" data-val="7D" data-mult="1.1" data-label="7 Days (+10%)" onclick="pickDelivery(this)"><i class="fa-solid fa-hourglass-half"></i> 7 Days (+10%)</div>
+              <div class="dropdown-option" data-val="30D" data-mult="1.15" data-label="30 Days (+15%)" onclick="pickDelivery(this)"><i class="fa-solid fa-rocket"></i> 30 Days (+15%)</div>
+              <div class="dropdown-option" data-val="120D" data-mult="1.2" data-label="120 Days (+20%)" onclick="pickDelivery(this)"><i class="fa-solid fa-bolt"></i> 120 Days (+20%)</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label"><i class="fa-solid fa-globe"></i> 3. Select Network</label>
+          <div class="custom-select" id="serverSelect">
+            <div class="custom-select-trigger" onclick="toggleSelect('serverSelect')">
+              <div class="cst-left" id="serverTriggerContent"><span class="server-flag-placeholder"><i class="fa-solid fa-globe"></i></span><span id="serverLabel">Choose Network</span></div>
+              <i class="fa-solid fa-chevron-down cst-arrow" id="serverArrow"></i>
+            </div>
+            <div class="custom-dropdown" id="serverDropdown">
+              <div class="dropdown-option" data-val="TRC20" data-label="Tron (TRC20)" data-flag="img/5.png" onclick="pickServer(this)"><img src="img/1.png" class="option-logo"> Tron (TRC20)</div>
+              <div class="dropdown-option" data-val="ERC20" data-label="Ethereum (ERC20)" data-flag="img/6.png" onclick="pickServer(this)"><img src="img/2.png" class="option-logo"> Ethereum (ERC20)</div>
+              <div class="dropdown-option" data-val="BEP20" data-label="BNB Smart Chain (BEP20)" data-flag="img/7.png" onclick="pickServer(this)"><img src="img/3.png" class="option-logo"> BNB Smart Chain (BEP20)</div>
+              <div class="dropdown-option" data-val="Solona" data-label="Solona" data-flag="img/8.png" onclick="pickServer(this)"><img src="img/4.png" class="option-logo"> Solona</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:7px">
+        <label class="form-label"><i class="fa-solid fa-id-badge"></i> 4. Wallet address</label>
+        <div class="input-with-flag">
+          <div class="server-flag" id="serverFlagDisplay"><span class="server-flag-placeholder"><i class="fa-solid fa-globe"></i></span><span class="flag-sep"></span></div>
+          <input type="text" class="form-input has-flag" id="playerID" placeholder="Enter your wallet Address" oninput="updateSummary()"/>
+        </div>
+        <div id="buy-error" style="color:red;font-size:12px;margin-top:5px;display:none"></div>
+      </div>
+      <p style="font-size:.7rem;color:var(--muted);margin-bottom:22px;display:flex;align-items:center;gap:5px">
+        <i class="fa-solid fa-circle-info" style="color:var(--teal);font-size:.72rem"></i>
+        Kindly make sure the address you provide is correct.
+      </p>
+      <div class="summary-box">
+        <div class="summary-title"><i class="fa-solid fa-receipt"></i> Order Summary</div>
+        <div class="summary-row"><span class="lbl">Flash USDT Package</span><span class="val" id="s-uc">50,000 USDT</span></div>
+        <div class="summary-row"><span class="lbl">Visibility Duration</span><span class="val" id="s-delivery">24 Hours</span></div>
+        <div class="summary-row"><span class="lbl">Network</span><span class="val" id="s-server">Tron (TRC20)</span></div>
+        <div class="summary-row"><span class="lbl">Target Address</span><span class="val" id="s-pid" style="color:var(--muted);font-size:.8rem">Not entered</span></div>
+        <div class="summary-total"><span class="total-label">Total</span><span class="total-price" id="s-total">$25</span></div>
+        <button class="btn-buy" onclick="openModal()"><i class="fa-solid fa-lock"></i> Complete Purchase — Secure Checkout</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION ORDER: 2. Airdrop — fully visible, no lock -->
+<section id="airdrop">
+  <div class="section-header reveal">
+    <div class="section-label"><i class="fa-solid fa-gift"></i> Try Your Luck</div>
+    <h2 class="section-title">USDT <span class="g">Airdrop</span> Jackpot</h2>
+  </div>
+  <div class="airdrop-container glass-card reveal">
+    <div class="airdrop-header">
+      <h2>Try Your Luck &mdash; <span>REAL USDT Airdrop</span></h2>
+      <p>Pay $20 and get a random USDT reward between 20 and 10,000 USDT</p>
+    </div>
+    <div class="airdrop-body">
+      <div id="airdropStep1">
+        <div class="airdrop-step-label"><i class="fa-solid fa-circle-1"></i> Step 1 &mdash; Enter Your Details</div>
+        <div class="airdrop-fields">
+          <div class="form-group">
+            <label class="form-label"><i class="fa-solid fa-globe"></i> Select Network</label>
+            <div class="custom-select" id="airdropServerSelect">
+              <div class="custom-select-trigger" onclick="toggleSelect('airdropServerSelect')">
+                <div class="cst-left" id="airdropServerContent"><span class="server-flag-placeholder"><i class="fa-solid fa-globe"></i></span><span id="airdropServerLabel">Choose Network</span></div>
+                <i class="fa-solid fa-chevron-down cst-arrow" id="airdropServerArrow"></i>
+              </div>
+              <div class="custom-dropdown" id="airdropServerDropdown">
+                <div class="dropdown-option" data-val="TRC20" data-label="Tron (TRC20)" data-flag="img/5.png" onclick="pickAirdropServer(this)"><img src="img/1.png" class="option-logo"> Tron (TRC20)</div>
+              <div class="dropdown-option" data-val="ERC20" data-label="Ethereum (ERC20)" data-flag="img/6.png" onclick="pickAirdropServer(this)"><img src="img/2.png" class="option-logo"> Ethereum (ERC20)</div>
+              <div class="dropdown-option" data-val="BEP20" data-label="BNB Smart Chain (BEP20)" data-flag="img/7.png" onclick="pickAirdropServer(this)"><img src="img/3.png" class="option-logo"> BNB Smart Chain (BEP20)</div>
+              <div class="dropdown-option" data-val="Solona" data-label="Solona" data-flag="img/8.png" onclick="pickAirdropServer(this)"><img src="img/4.png" class="option-logo"> Solona</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label"><i class="fa-solid fa-id-badge"></i> Wallet address <span class="required-badge">Required</span></label>
+            <div class="input-with-flag">
+              <div class="server-flag" id="airdropFlagDisplay"><span class="server-flag-placeholder"><i class="fa-solid fa-globe"></i></span><span class="flag-sep"></span></div>
+              <input type="text" class="form-input has-flag" id="airdropPlayerID" placeholder="Enter your Wallet address"/>
+            </div>
+            <div id="airdrop-error" style="color:red;font-size:12px;margin-top:5px;display:none"></div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:22px">
+          <button class="btn-continue" id="airdropContinueBtn" onclick="airdropContinue()">
+            <i class="fa-solid fa-arrow-right"></i> Continue to Payment
+          </button>
+        </div>
+      </div>
+      <!-- Step 2 — FULLY VISIBLE, no overlay/blur -->
+      <div id="airdropStep2">
+        <div class="airdrop-step-label" style="margin-top:24px"><i class="fa-solid fa-circle-2"></i> Step 2 &mdash; Unlock Your Reward</div>
+        <div class="rewards-grid" id="rewardsGrid">
+          <div class="reward-card" data-index="0"><div class="reward-icon"><i class="fa-solid fa-gem"></i></div><div class="reward-amount">20 USDT</div><div class="reward-label">Common</div></div>
+          <div class="reward-card" data-index="1"><div class="reward-icon"><i class="fa-solid fa-diamond"></i></div><div class="reward-amount">100 USDT</div><div class="reward-label">Uncommon</div></div>
+          <div class="reward-card" data-index="2"><div class="reward-icon"><i class="fa-solid fa-trophy"></i></div><div class="reward-amount">500 USDT</div><div class="reward-label">Rare</div></div>
+          <div class="reward-card" data-index="3"><div class="reward-icon"><i class="fa-solid fa-crown"></i></div><div class="reward-amount">1,000 USDT</div><div class="reward-label">Epic</div></div>
+          <div class="reward-card" data-index="4"><div class="reward-icon"><i class="fa-solid fa-star"></i></div><div class="reward-amount">5,000 USDT</div><div class="reward-label">Legendary</div></div>
+          <div class="reward-card jackpot" data-index="5"><div class="jackpot-tag"><i class="fa-solid fa-fire" style="font-size:.46rem"></i> JACKPOT</div><div class="reward-icon"><i class="fa-solid fa-bolt"></i></div><div class="reward-amount">10,000 USDT</div><div class="reward-label">Ultimate</div></div>
+        </div>
+        <div class="airdrop-cta-area">
+          <button class="btn-unlock" id="unlockBtn" onclick="doCardReveal()" disabled>
+            <i class="fa-solid fa-lock"></i> Complete Step 1 to Unlock
+          </button>
+          <div class="airdrop-note"><i class="fa-solid fa-triangle-exclamation"></i> Results are random. Higher rewards are rare. Each attempt costs $20.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION ORDER: 3. Mining -->
+<section id="mining style="position:relative;">
+  <div class="section-header reveal">
+    <div class="section-label"><i class="fa-solid fa-microchip"></i> Earn Free USDT </div>
+    <h2 class="section-title">Earn Free USDT <span class="g">Slow Method</span></h2>
+  </div>
+  <div class="mining-container reveal">
+    <div class="mining-card glass-card">
+      <div class="mining-card-header">
+        <h3><i class="fa-solid fa-microchip"></i> USDT Mining Dashboard</h3>
+        <div class="mining-balance"><div><div class="bal-label">Earned Balance</div><div class="bal-value"><span id="minedBalance">0.00</span> USDT</div></div></div>
+      </div>
+      <div class="mining-body">
+        <div class="form-label" style="margin-bottom:11px"><i class="fa-solid fa-gauge"></i> Mining Speed</div>
+        <div class="speed-selector">
+          <div class="speed-btn active" data-rate="1" data-ads="1" onclick="setMiningSpeed(this)">
+            <div class="sp-rate">1 USDT/hr</div><div class="sp-req">Watch 1 ad to start</div><div class="sp-tag">Free</div>
+          </div>
+          <div class="speed-btn" data-rate="2" data-ads="2" onclick="setMiningSpeed(this)">
+            <div class="sp-rate">2 USDT/hr</div><div class="sp-req">Watch 2 ads to start</div><div class="sp-tag">Basic</div>
+          </div>
+          <div class="speed-btn" data-rate="5" data-ads="3" onclick="setMiningSpeed(this)">
+            <div class="sp-rate">5 USDT/hr</div><div class="sp-req">Ads + survey required</div><div class="sp-tag">Pro</div>
+          </div>
+        </div>
+        <div class="progress-section">
+          <div class="progress-header">
+            <span class="prog-label"><i class="fa-solid fa-circle-notch fa-spin" id="miningSpinIcon" style="display:none"></i><i class="fa-solid fa-chart-simple" id="miningIdleIcon"></i>&nbsp;<span id="miningStatusText">Ready to mine</span></span>
+            <span class="prog-pct" id="miningPct">0%</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+        <div class="mining-timer"><i class="fa-solid fa-clock"></i> Next reward in: <span id="miningTimerDisplay">60:00</span></div>
+        <div class="mining-btn-row">
+          <button class="btn-start-mining" id="startMiningBtn" onclick="startMining()"><i class="fa-solid fa-play"></i> Start Mining</button>
+          <button class="btn-withdraw" id="withdrawBtn" disabled><i class="fa-solid fa-wallet"></i> Withdraw USDT</button>
+        </div>
+        <div class="min-withdraw-note"><i class="fa-solid fa-circle-info"></i> Minimum withdrawal is 25 USDT</div>
+        <div class="mining-warning">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>Free USDT is very slow. Mining 500 USDT takes <strong style="color:var(--text)">500+ hours</strong>. For instant top-up, use our <strong style="color:var(--green);cursor:pointer" onclick="smoothNav(null,'purchase')">paid option</strong> — delivered in minutes.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="coming-overlay">
+  <i class="fa-solid fa-lock"></i>
+  <h3>Coming Soon</h3>
+  <p>This feature is not available yet</p>
+</div>
+</section>
+
+<!-- SECTION ORDER: 4. Features -->
+<section id="features">
+  <div class="section-header reveal">
+    <div class="section-label"><i class="fa-solid fa-sparkles"></i> Our Features</div>
+    <h2 class="section-title">Built for <span class="g">Serious Traders</span></h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal"><div class="feature-icon-wrap"><i class="fa-solid fa-bolt"></i></div><h3>Fast Delivery</h3><p>USDT arrives in minutes with our optimized automated top-up pipeline.</p></div>
+    <div class="feature-card reveal" style="transition-delay:.07s"><div class="feature-icon-wrap"><i class="fa-solid fa-lock"></i></div><h3>Secure Payments</h3><p>End-to-end encrypted transactions. Your funds and account stay safe.</p></div>
+    <div class="feature-card reveal" style="transition-delay:.14s"><div class="feature-icon-wrap"><i class="fa-solid fa-headset"></i></div><h3>24/7 Support</h3><p>Round-the-clock assistance. We respond in under 5 minutes.</p></div>
+    <div class="feature-card reveal" style="transition-delay:.21s"><div class="feature-icon-wrap"><i class="fa-solid fa-tag"></i></div><h3>Affordable Prices</h3><p>Best market rates with bulk discounts up to 60% off retail.</p></div>
+    <div class="feature-card reveal" style="transition-delay:.28s"><div class="feature-icon-wrap"><i class="fa-solid fa-shield-halved"></i></div><h3>Trusted Service</h3><p>50,000+ verified orders. Rated 4.9/5 by our community.</p></div>
+  </div>
+</section>
+
+<!-- Reviews -->
+<section id="reviews" style="padding:72px 24px">
+  <div class="section-header reveal">
+    <div class="section-label"><i class="fa-solid fa-comment-dots"></i> Testimonials</div>
+    <h2 class="section-title">What Traders <span class="g">Are Saying</span></h2>
+  </div>
+  <div class="reviews-container reveal">
+    <div class="fade-left"></div><div class="fade-right"></div>
+    <div class="reviews-track" id="reviewsTrack"></div>
+  </div>
+</section>
+
+<!-- Review Form -->
+<section id="review-form">
+  <div class="section-header reveal">
+    <div class="section-label"><i class="fa-solid fa-pen-to-square"></i> Share Your Experience</div>
+    <h2 class="section-title">Leave Your <span class="g">Review</span></h2>
+  </div>
+  <div class="review-form-card glass-card reveal">
+    <div class="form-row" style="margin-bottom:16px">
+      <div class="form-group">
+        <label class="form-label"><i class="fa-solid fa-user"></i> Your Name</label>
+        <input type="text" class="form-input" placeholder="Enter your name" id="rv-name"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><i class="fa-solid fa-star"></i> Rating</label>
+        <div class="star-rating">
+          <input type="radio" name="rating" id="s5" value="5"/><label for="s5"><i class="fa-solid fa-star"></i></label>
+          <input type="radio" name="rating" id="s4" value="4"/><label for="s4"><i class="fa-solid fa-star"></i></label>
+          <input type="radio" name="rating" id="s3" value="3"/><label for="s3"><i class="fa-solid fa-star"></i></label>
+          <input type="radio" name="rating" id="s2" value="2"/><label for="s2"><i class="fa-solid fa-star"></i></label>
+          <input type="radio" name="rating" id="s1" value="1" checked/><label for="s1"><i class="fa-solid fa-star"></i></label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:20px">
+      <label class="form-label"><i class="fa-solid fa-comment"></i> Comment</label>
+      <textarea class="form-textarea" id="rv-comment" placeholder="Share your experience with Flash USDT Vault..."></textarea>
+    </div>
+    <button class="btn-submit" onclick="submitReview()"><i class="fa-solid fa-paper-plane"></i> Submit Review</button>
+    <div id="reviewSuccess" style="display:none;margin-top:13px;padding:11px 15px;background:rgba(57,255,20,0.07);border:1px solid rgba(57,255,20,0.2);border-radius:var(--r8);font-size:.82rem;color:var(--green);align-items:center;gap:8px">
+      <i class="fa-solid fa-circle-check"></i> Thank you! Your review has been submitted.
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="padding:72px 24px">
+  <div class="section-header reveal">
+    <div class="section-label"><i class="fa-solid fa-circle-question"></i> Help Center</div>
+    <h2 class="section-title">Frequently Asked <span class="g">Questions</span></h2>
+  </div>
+  <div class="faq-container reveal">
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-question"><div class="faq-q-left"><div class="faq-q-icon"><i class="fa-solid fa-clock"></i></div><h4>How fast will I receive the Flash USDT?</h4></div><i class="fa-solid fa-chevron-down faq-chevron"></i></div>
+      <div class="faq-answer"><div class="faq-answer-inner">Flash tokens are delivered within 30-60 seconds after your payment is confirmed on the blockchain. Network congestion may slightly affect delivery time</div></div>
+    </div>
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-question"><div class="faq-q-left"><div class="faq-q-icon"><i class="fa-solid fa-shield-halved"></i></div><h4>Is this legal to use?</h4></div><i class="fa-solid fa-chevron-down faq-chevron"></i></div>
+      <div class="faq-answer"><div class="faq-answer-inner">Flash USDT is designed for legitimate purposes like testing, demonstrations, and proof of funds. Using it to deceive others in financial transactions may violate local laws. Always use responsibly.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-question"><div class="faq-q-left"><div class="faq-q-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><h4>What if I enter the wrong Wallet  address?</h4></div><i class="fa-solid fa-chevron-down faq-chevron"></i></div>
+      <div class="faq-answer"><div class="faq-answer-inner">Please double-check your wallet address — find it in wallet under Settings &rarr; assets &rarr; wallet address. Contact our 24/7 support immediately with order details if incorrect.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-question"><div class="faq-q-left"><div class="faq-q-icon"><i class="fa-solid fa-earth-americas"></i></div><h4>Which wallets are supported?</h4></div><i class="fa-solid fa-chevron-down faq-chevron"></i></div>
+      <div class="faq-answer"><div class="faq-answer-inner">Flash USDT works with all major wallets including MetaMask, Trust Wallet, Coinbase Wallet, and any wallet that supports ERC-20, BEP-20, or TRC-20 tokens.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-question"><div class="faq-q-left"><div class="faq-q-icon"><i class="fa-solid fa-bitcoin-sign"></i></div><h4>How Flash USDT Works?</h4></div><i class="fa-solid fa-chevron-down faq-chevron"></i></div>
+      <div class="faq-answer"><div class="faq-answer-inner">Flash USDT utilizes the same Network token standard and contract interface as genuine Tether tokens. When wallets and exchanges query the blockchain, they read the standard balanceOf() function which returns your flash balance.
+
+The tokens appear in MetaMask, Trust Wallet, Coinbase, and exchange deposit interfaces because they implement the identical token metadata — same symbol, decimals, and contract events that scanners recognize.
+
+Important: Flash tokens are temporary visibility tokens. They cannot be transferred, traded, or withdrawn as real value. Duration determines how long the balance remains visible before automatic expiration.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about" style="padding:60px 24px">
+  <div class="section-header reveal">
+    <div class="section-label"><i class="fa-solid fa-building"></i> Who We Are</div>
+    <h2 class="section-title">About <span class="g">Us</span></h2>
+  </div>
+  <div class="about-card glass-card reveal">
+    <div class="about-icon-big"><i class="fa-solid fa-bolt"></i></div>
+    <div class="about-text">
+      <h2>FlashUSDT <span>Vault</span></h2>
+      <p>We provide fast, secure, and affordable USDT top-up services for Traders worldwide. Trusted crypto payments, instant delivery, no account credentials required.</p>
+      <div class="about-stats">
+        <div class="about-stat"><div class="num">50K+</div><div class="lbl">Happy Traders</div></div>
+        <div class="about-stat"><div class="num">4.9/5</div><div class="lbl">Rating</div></div>
+        <div class="about-stat"><div class="num">99.8%</div><div class="lbl">Success Rate</div></div>
+        <div class="about-stat"><div class="num">24/7</div><div class="lbl">Support</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Powered By — one row, small icons -->
+<section id="powered">
+  <div class="powered-container">
+    <div class="section-header reveal" style="margin-bottom:0">
+      <div class="section-label"><i class="fa-solid fa-plug"></i> Payments Powered By</div>
+    </div>
+    <div class="powered-grid reveal">
+      <div class="powered-item"><div class="powered-icon"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#26A17B"/><path d="M17.922 17.383v-.002c-.11.008-.677.042-1.942.042-1.01 0-1.721-.03-1.971-.042v.003c-3.888-.171-6.79-.848-6.79-1.658 0-.809 2.902-1.486 6.79-1.66v2.644c.254.018.982.061 1.988.061 1.207 0 1.812-.05 1.925-.06v-2.643c3.88.173 6.775.85 6.775 1.658 0 .81-2.895 1.485-6.775 1.657m0-3.59v-2.366h5.414V8h-12.76v3.427h5.414v2.365c-4.4.202-7.709 1.074-7.709 2.126 0 1.051 3.309 1.923 7.709 2.125v7.604h2.942V18.04c4.392-.201 7.694-1.073 7.694-2.124 0-1.051-3.302-1.923-7.694-2.123" fill="white"/></svg></div><div class="powered-label">USDT</div></div>
+      <div class="powered-item"><div class="powered-icon"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#F7931A"/><path d="M23.189 14.02c.314-2.096-1.283-3.223-3.465-3.975l.708-2.84-1.728-.43-.69 2.765c-.454-.113-.92-.22-1.385-.326l.695-2.783-1.727-.43-.708 2.84c-.376-.086-.746-.17-1.104-.26l.002-.009-2.384-.595-.46 1.846s1.283.294 1.256.312c.7.175.826.638.805 1.006l-.806 3.235c.048.012.11.03.18.057l-.183-.045-1.13 4.532c-.086.212-.303.531-.793.41.018.025-1.256-.313-1.256-.313l-.858 1.978 2.25.561c.418.105.828.215 1.231.318l-.715 2.872 1.726.43.708-2.84c.472.128.93.245 1.378.357l-.706 2.828 1.727.43.715-2.866c2.948.558 5.164.333 6.097-2.333.752-2.146-.037-3.385-1.588-4.192 1.13-.26 1.98-1.003 2.207-2.538zm-3.95 5.538c-.533 2.147-4.148.986-5.32.695l.95-3.805c1.172.293 4.929.872 4.37 3.11zm.535-5.569c-.487 1.953-3.495.96-4.47.717l.86-3.45c.975.243 4.118.696 3.61 2.733z" fill="white"/></svg></div><div class="powered-label">Bitcoin</div></div>
+      <div class="powered-item"><div class="powered-icon"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#627EEA"/><path d="M16.498 4v8.87l7.497 3.35z" fill="white" fill-opacity=".6"/><path d="M16.498 4L9 16.22l7.498-3.35z" fill="white"/><path d="M16.498 21.968v6.027L24 17.616z" fill="white" fill-opacity=".6"/><path d="M16.498 27.995v-6.028L9 17.616z" fill="white"/><path d="M16.498 20.573l7.497-4.353-7.497-3.348z" fill="white" fill-opacity=".2"/><path d="M9 16.22l7.498 4.353v-7.701z" fill="white" fill-opacity=".6"/></svg></div><div class="powered-label">Ethereum</div></div>
+      <div class="powered-item"><div class="powered-icon"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#F3BA2F"/><path d="M12.116 14.404L16 10.52l3.886 3.886 2.26-2.26L16 6l-6.144 6.144 2.26 2.26zM6 16l2.26-2.26L10.52 16l-2.26 2.26L6 16zm6.116 1.596L16 21.48l3.886-3.886 2.26 2.259L16 26l-6.144-6.144-.002-.002 2.262-2.258zM21.48 16l2.26-2.26L26 16l-2.26 2.26L21.48 16zm-3.188-.002h.002V16L16 18.294l-2.291-2.29-.004-.004.004-.003.401-.402.195-.195L16 13.706l2.293 2.292z" fill="white"/></svg></div><div class="powered-label">Binance</div></div>
+      <div class="powered-item"><div class="powered-icon"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#3375BB"/><path d="M16 6l-8 3.6v5.4c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V9.6L16 6z" fill="white" fill-opacity=".9"/><path d="M13 16l2 2 4-4" stroke="#3375BB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="powered-label">Trust Wallet</div></div>
+      <div class="powered-item"><div class="powered-icon"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#E2761B"/><path d="M25.5 6.5L18.1 12l1.4-3.3z" fill="#E4761B" stroke="#E4761B" stroke-width=".1"/><path d="M6.5 6.5l7.3 5.6-1.3-3.4zM22.8 21.2l-2 3 4.2 1.2 1.2-4.1zM5.8 21.3l1.2 4.1 4.2-1.2-2-3z" fill="#E4761B" stroke="#E4761B" stroke-width=".1"/><path d="M10.9 14.8l-1.2 1.8 4.2.2-.1-4.5zM21.1 14.8l-3-2.6-.1 4.6 4.2-.2zM11.2 24.2l2.5-1.2-2.2-1.7zM18.3 23l2.5 1.2-.3-2.9z" fill="#E4761B" stroke="#E4761B" stroke-width=".1"/></svg></div><div class="powered-label">MetaMask</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- UPSELL -->
+<div class="upsell-overlay" id="upsellOverlay">
+  <div class="upsell-card">
+    <button class="upsell-close" onclick="closeUpsell()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="upsell-icon"><i class="fa-solid fa-bolt"></i></div>
+    <h4>You're Earning Slowly...</h4>
+    <p>At this rate it will take <strong>hundreds of hours</strong> to get enough USDT.<br>Most people choose <strong>instant delivery</strong>.<br><br>Get <strong>50K FlashUSDTinstantly</strong> — same cost, zero waiting.</p>
+    <button class="btn-upsell" onclick="closeUpsell();smoothNav(null,'purchase')"><i class="fa-solid fa-bolt"></i> Buy Flash USDT Now — Instant Delivery</button>
+    <span class="upsell-dismiss" onclick="closeUpsell()">No thanks, I'll keep waiting</span>
+  </div>
+</div>
+
+<!-- PURCHASE PAYMENT MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-left"><i class="fa-solid fa-credit-card"></i><h3>Complete Payment</h3></div>
+      <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div id="payForm">
+        <div class="order-row"><span class="k"><i class="fa-solid fa-gem"></i> FlashUSDT Package</span><span class="v" id="m-uc">50,000 USDT</span></div>
+        <div class="order-row"><span class="k"><i class="fa-solid fa-bolt"></i> Visibility Duration</span><span class="v" id="m-del">24 Hours</span></div>
+        <div class="order-row"><span class="k"><i class="fa-solid fa-globe"></i> Network</span><span class="v" id="m-srv">Tron (TRC20)</span></div>
+        <div class="order-row"><span class="k"><i class="fa-solid fa-id-badge"></i> Target Address</span><span class="v" id="m-pid">—</span></div>
+        <div class="order-total-row"><span class="k"><i class="fa-solid fa-coins"></i> Total</span><span class="v" id="m-total">$25</span></div>
+        <div style="border-top:1px solid var(--border);padding-top:16px;margin-bottom:14px">
+          <div class="form-label" style="margin-bottom:11px"><i class="fa-solid fa-user-circle"></i> Your Details</div>
+          <div class="form-group" style="margin-bottom:10px">
+            <label class="form-label" style="font-size:.68rem"><i class="fa-solid fa-user"></i> Full Name <span class="optional-badge">Optional</span></label>
+            <input type="text" class="form-input" id="buyerName" placeholder="Your name"/>
+          </div>
+          <div class="form-group" style="margin-bottom:10px">
+            <label class="form-label" style="font-size:.68rem"><i class="fa-solid fa-envelope"></i> Email <span class="optional-badge">Optional</span></label>
+            <input type="email" class="form-input" id="buyerEmail" placeholder="your@email.com"/>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label" style="font-size:.68rem"><i class="fa-brands fa-telegram"></i> Telegram <span class="optional-badge">Optional</span></label>
+            <input type="text" class="form-input" id="buyerTelegram" placeholder="@username"/>
+          </div>
+        </div>
+        <div class="form-label" style="margin-bottom:7px"><i class="fa-solid fa-wallet"></i> Payment Method</div>
+        <div class="custom-select" id="payMethodSelect">
+          <div class="custom-select-trigger" onclick="toggleSelect('payMethodSelect')">
+            <div class="cst-left"><i class="fa-solid fa-circle-dot" style="color:var(--green);width:15px;font-size:.8rem"></i><span id="payMethodLabel">Choose Payment Method</span></div>
+            <i class="fa-solid fa-chevron-down cst-arrow" id="payMethodArrow"></i>
+          </div>
+          <div class="custom-dropdown" id="payMethodDropdown">
+            <div class="dropdown-option" data-val="usdt-trc" data-label="USDT (TRC20)" data-addr="TAors2rrY2AFLcuELgxDD2q87tfTJWyaDi" onclick="pickPayMethod(this)"><i class="fa-solid fa-circle" style="color:#26A17B"></i> USDT (TRC20)</div>
+            <div class="dropdown-option" data-val="usdt-erc" data-label="USDT (ERC20)" data-addr="0x33a10d38b547f017b9368d5da7ae865ab1c30b72" onclick="pickPayMethod(this)"><i class="fa-solid fa-circle" style="color:#627EEA"></i> USDT (ERC20)</div>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-option" data-val="btc" data-label="Bitcoin (BTC)" data-addr="14pxH2rUBbJATNBzYQfFMmR2jLBxRWk9k7" onclick="pickPayMethod(this)"><i class="fa-solid fa-circle" style="color:#F7931A"></i> Bitcoin (BTC)</div>
+            <div class="dropdown-option" data-val="eth" data-label="Ethereum (ETH)" data-addr="0x33a10d38b547f017b9368d5da7ae865ab1c30b72" onclick="pickPayMethod(this)"><i class="fa-solid fa-circle" style="color:#627EEA"></i> Ethereum (ETH)</div>
+            <div class="dropdown-option" data-val="bnb" data-label="BNB" data-addr="0x33a10d38b547f017b9368d5da7ae865ab1c30b72" onclick="pickPayMethod(this)"><i class="fa-solid fa-circle" style="color:#F3BA2F"></i> BNB</div>
+          </div>
+        </div>
+        <div class="qr-section" id="qrSection">
+          <div class="qr-box"><img id="qrImg" src="" alt="QR Code"/></div>
+          <div class="wallet-addr" id="walletAddr">—</div>
+          <button class="copy-btn" onclick="copyAddr()"><i class="fa-solid fa-copy"></i> Copy Address</button>
+          <div class="upload-area" id="uploadArea" onclick="document.getElementById('screenshot').click()">
+            <div class="upload-area-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+            <strong>Upload Payment Screenshot</strong><p>Required — attach your payment proof (JPG, PNG, PDF)</p>
+            <div style="margin-top:5px"><span class="required-badge"><i class="fa-solid fa-asterisk" style="font-size:.38rem"></i> Required to submit</span></div>
+            <input type="file" id="screenshot" style="display:none" accept="image/*,.pdf" onchange="fileSelected(this)"/>
+          </div>
+          <div id="fileNameDisplay" style="font-size:.73rem;color:var(--green);display:none;align-items:center;gap:6px"><i class="fa-solid fa-paperclip"></i><span></span></div>
+          <button class="confirm-btn" onclick="confirmPayment()"><i class="fa-solid fa-circle-check"></i> Confirm Payment</button>
+        </div>
+      </div>
+      <div class="success-msg" id="successMsg">
+        <div class="success-icon-wrap"><i class="fa-solid fa-check"></i></div>
+        <h3>Order Submitted!</h3>
+        <p>Your order is being verified.<br>USDT delivery will start shortly.<br><br><span style="color:var(--green);font-weight:700">Keep your game open for instant top-up!</span></p>
+        <button class="confirm-btn" style="margin-top:22px" onclick="closeModal()"><i class="fa-solid fa-xmark"></i> Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AIRDROP PAYMENT MODAL -->
+<div class="modal-overlay" id="airdropModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-left"><i class="fa-solid fa-gift" style="color:var(--gold)"></i><h3>Airdrop Payment — $20</h3></div>
+      <button class="modal-close" onclick="closeAirdropModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div id="airdropPayForm">
+        <div class="order-row"><span class="k"><i class="fa-solid fa-gift"></i> Product</span><span class="v">USDT Airdrop Jackpot</span></div>
+        <div class="order-row"><span class="k"><i class="fa-solid fa-globe"></i> Network</span><span class="v" id="am-server">—</span></div>
+        <div class="order-row"><span class="k"><i class="fa-solid fa-id-badge"></i> Wallet address</span><span class="v" id="am-pid">—</span></div>
+        <div class="order-total-row"><span class="k"><i class="fa-solid fa-coins"></i> Total</span><span class="v" style="color:var(--gold)">$20.00</span></div>
+        <div class="form-label" style="margin-bottom:7px"><i class="fa-solid fa-wallet"></i> Payment Method</div>
+        <div class="custom-select" id="airdropPayMethodSelect">
+          <div class="custom-select-trigger" onclick="toggleSelect('airdropPayMethodSelect')">
+            <div class="cst-left"><i class="fa-solid fa-circle-dot" style="color:var(--gold);width:15px;font-size:.8rem"></i><span id="airdropPayMethodLabel">Choose Payment Method</span></div>
+            <i class="fa-solid fa-chevron-down cst-arrow" id="airdropPayMethodArrow"></i>
+          </div>
+          <div class="custom-dropdown" id="airdropPayMethodDropdown">
+            <div class="dropdown-option" data-val="usdt-trc" data-label="USDT (TRC20)" data-addr="TAors2rrY2AFLcuELgxDD2q87tfTJWyaDi" onclick="pickAirdropPayMethod(this)"><i class="fa-solid fa-circle" style="color:#26A17B"></i> USDT (TRC20)</div>
+            <div class="dropdown-option" data-val="btc" data-label="Bitcoin (BTC)" data-addr="14pxH2rUBbJATNBzYQfFMmR2jLBxRWk9k7" onclick="pickAirdropPayMethod(this)"><i class="fa-solid fa-circle" style="color:#F7931A"></i> Bitcoin (BTC)</div>
+            <div class="dropdown-option" data-val="eth" data-label="Ethereum (ETH)" data-addr="0x33a10d38b547f017b9368d5da7ae865ab1c30b72" onclick="pickAirdropPayMethod(this)"><i class="fa-solid fa-circle" style="color:#627EEA"></i> Ethereum (ETH)</div>
+          </div>
+        </div>
+        <div class="qr-section" id="airdropQrSection">
+          <div class="qr-box"><img id="airdropQrImg" src="" alt="QR"/></div>
+          <div class="wallet-addr" id="airdropWalletAddr">—</div>
+          <button class="copy-btn" onclick="copyAirdropAddr()"><i class="fa-solid fa-copy"></i> Copy Address</button>
+          <div class="upload-area" id="airdropUploadArea" onclick="document.getElementById('airdropScreenshot').click()">
+            <div class="upload-area-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+            <strong>Upload Payment Screenshot</strong><p>Required — attach your payment proof</p>
+            <div style="margin-top:5px"><span class="required-badge"><i class="fa-solid fa-asterisk" style="font-size:.38rem"></i> Required</span></div>
+            <input type="file" id="airdropScreenshot" style="display:none" accept="image/*,.pdf" onchange="airdropFileSelected(this)"/>
+          </div>
+          <div id="airdropFileDisplay" style="font-size:.73rem;color:var(--green);display:none;align-items:center;gap:6px"><i class="fa-solid fa-paperclip"></i><span></span></div>
+          <button class="confirm-btn" style="background:linear-gradient(135deg,#ffd700,#ff9900);color:#1a0a00;box-shadow:0 0 16px rgba(255,180,0,0.2)" onclick="confirmAirdropPayment()"><i class="fa-solid fa-circle-check"></i> Confirm Payment &amp; Reveal Reward</button>
+        </div>
+      </div>
+      <div class="success-msg" id="airdropSuccessMsg">
+        <div class="success-icon-wrap" style="background:rgba(255,180,0,0.1);border-color:rgba(255,180,0,0.3)"><i class="fa-solid fa-check" style="color:var(--gold)"></i></div>
+        <h3>Payment Confirmed!</h3>
+        <p>Return to the Airdrop section to reveal your reward!</p>
+        <button class="confirm-btn" style="margin-top:22px;background:linear-gradient(135deg,#ffd700,#ff9900);color:#1a0a00" onclick="closeAirdropModal();activateCardReveal()"><i class="fa-solid fa-gift"></i> Reveal My Reward</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- HOW IT WORKS MODAL -->
+<div class="hiw-overlay" id="hiwOverlay">
+  <div class="hiw-modal">
+    <div class="hiw-header">
+      <h3><i class="fa-solid fa-circle-play"></i> How Flash USDT Works</h3>
+      <button class="hiw-close" onclick="closeHIW()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="hiw-body">
+      <div class="hiw-step">
+        <div class="hiw-num">1</div>
+        <div class="hiw-step-text">
+          <h4>Select Your USDT Package</h4>
+          <p>Choose the USDT amount that suits your needs — from 50K USDT starter packs to 500K USDT elite bundles. Bigger packs = bigger savings.</p>
+        </div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">2</div>
+        <div class="hiw-step-text">
+          <h4>Choose Visibility Duration &amp; Network</h4>
+          <p>Select your USDT Network and preferred Visibility Duration — from 1 Day to 120 Days.</p>
+        </div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">3</div>
+        <div class="hiw-step-text">
+          <h4>Enter Your Wallet address</h4>
+          <p>Enter your Wallet address (Wallet→ assets → Address). Kindly make sure the address and network you provide is correct.</p>
+        </div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">4</div>
+        <div class="hiw-step-text">
+          <h4>Pay with Crypto</h4>
+          <p>Complete checkout using USDT, BTC, ETH, or BNB. Scan the QR code or copy the wallet address, then upload your payment screenshot.</p>
+        </div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">5</div>
+        <div class="hiw-step-text">
+          <h4>Receive Your USDT</h4>
+          <p>Once your payment is verified, USDT is delivered directly to your wallet Open the wallet app and check your balance!</p>
+        </div>
+      </div>
+      <div class="hiw-footer-note">
+        <i class="fa-solid fa-circle-info"></i>
+        Flash USDT utilizes the same Network token standard and contract interface as genuine Tether tokens. When wallets and exchanges query the blockchain, they read the standard balanceOf() function which returns your flash balance. The tokens appear in MetaMask, Trust Wallet, Coinbase, and exchange deposit interfaces because they implement the identical token metadata — same symbol, decimals, and contract events that scanners recognize. Important: Flash tokens are temporary visibility tokens. They cannot be transferred, traded, or withdrawn as real value. Duration determines how long the balance remains visible before automatic expiration
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT FLOAT -->
+<div class="contact-float">
+  <div class="contact-panel" id="contactPanel">
+    <div class="contact-panel-header">
+      <h4><i class="fa-solid fa-headset"></i> Contact Support</h4>
+      <button class="cp-close" onclick="toggleContact()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="contact-panel-body" id="cpBody">
+      <div class="cp-quick">
+        <button class="cp-social-btn cp-tg" onclick="window.open('https://t.me/YourUsername','_blank')">
+          <i class="fa-brands fa-telegram"></i> Telegram
+        </button>
+        <button class="cp-social-btn cp-wa" onclick="window.open('https://wa.me/YourNumber','_blank')">
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp
+        </button>
+      </div>
+      <div class="cp-divider">or submit a ticket</div>
+      <div class="cp-field">
+        <label>Your Name</label>
+        <input type="text" class="cp-input" id="cpName" placeholder="Enter your name"/>
+      </div>
+      <div class="cp-field">
+        <label>Telegram / Email</label>
+        <input type="text" class="cp-input" id="cpContact" placeholder="@username or email"/>
+      </div>
+      <div class="cp-field">
+        <label>Describe Your Issue</label>
+        <textarea class="cp-input cp-textarea" id="cpMsg" placeholder="Tell us what happened..."></textarea>
+      </div>
+      <button class="cp-submit" onclick="submitTicket()">
+        <i class="fa-solid fa-paper-plane"></i> Submit Ticket
+      </button>
+      <div class="cp-success" id="cpSuccess">
+        <i class="fa-solid fa-circle-check"></i>
+        <p>Ticket submitted!<br>We'll reply to <strong id="cpReplyTo">you</strong> within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+  <button class="contact-fab" onclick="toggleContact()">
+    <i class="fa-solid fa-headset"></i> Contact Us
+  </button>
+</div>
+<!-- LIVE NOTIF -->
+<div class="notif-container" id="notifContainer"></div>
+
+<!-- FOOTER — Glassmorphism + Trust -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">FlashUSDT <span>Vault</span></div>
+        <p class="footer-desc">Fast, secure, and affordable USDT top-up. Trusted by 50,000+ Traders worldwide with instant crypto-powered delivery.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="#purchase" onclick="smoothNav(event,'purchase')">Buy USDT</a></li>
+          <li><a href="#airdrop" onclick="smoothNav(event,'airdrop')">USDT Airdrop</a></li>
+          <li><a href="#mining" onclick="smoothNav(event,'mining')">Earn Free USDT</a></li>
+          <li><a href="#reviews" onclick="smoothNav(event,'reviews')">Reviews</a></li>
+          <li><a href="#faq" onclick="smoothNav(event,'faq')">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Accepted Payments</h5>
+        <div class="footer-wallets">
+          <div class="footer-wallet-item"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#26A17B"/><path d="M17.922 17.383v-.002c-.11.008-.677.042-1.942.042-1.01 0-1.721-.03-1.971-.042v.003c-3.888-.171-6.79-.848-6.79-1.658 0-.809 2.902-1.486 6.79-1.66v2.644c.254.018.982.061 1.988.061 1.207 0 1.812-.05 1.925-.06v-2.643c3.88.173 6.775.85 6.775 1.658 0 .81-2.895 1.485-6.775 1.657m0-3.59v-2.366h5.414V8h-12.76v3.427h5.414v2.365c-4.4.202-7.709 1.074-7.709 2.126 0 1.051 3.309 1.923 7.709 2.125v7.604h2.942V18.04c4.392-.201 7.694-1.073 7.694-2.124 0-1.051-3.302-1.923-7.694-2.123" fill="white"/></svg><span>USDT</span></div>
+          <div class="footer-wallet-item"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#F7931A"/><path d="M23.189 14.02c.314-2.096-1.283-3.223-3.465-3.975l.708-2.84-1.728-.43-.69 2.765c-.454-.113-.92-.22-1.385-.326l.695-2.783-1.727-.43-.708 2.84c-.376-.086-.746-.17-1.104-.26l.002-.009-2.384-.595-.46 1.846s1.283.294 1.256.312c.7.175.826.638.805 1.006l-.806 3.235c.048.012.11.03.18.057l-.183-.045-1.13 4.532c-.086.212-.303.531-.793.41.018.025-1.256-.313-1.256-.313l-.858 1.978 2.25.561c.418.105.828.215 1.231.318l-.715 2.872 1.726.43.708-2.84c.472.128.93.245 1.378.357l-.706 2.828 1.727.43.715-2.866c2.948.558 5.164.333 6.097-2.333.752-2.146-.037-3.385-1.588-4.192 1.13-.26 1.98-1.003 2.207-2.538zm-3.95 5.538c-.533 2.147-4.148.986-5.32.695l.95-3.805c1.172.293 4.929.872 4.37 3.11zm.535-5.569c-.487 1.953-3.495.96-4.47.717l.86-3.45c.975.243 4.118.696 3.61 2.733z" fill="white"/></svg><span>BTC</span></div>
+          <div class="footer-wallet-item"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#627EEA"/><path d="M16.498 4v8.87l7.497 3.35z" fill="white" fill-opacity=".6"/><path d="M16.498 4L9 16.22l7.498-3.35z" fill="white"/><path d="M9 16.22l7.498 4.353v-7.701z" fill="white" fill-opacity=".6"/></svg><span>ETH</span></div>
+          <div class="footer-wallet-item"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#F3BA2F"/><path d="M12.116 14.404L16 10.52l3.886 3.886 2.26-2.26L16 6l-6.144 6.144 2.26 2.26zM6 16l2.26-2.26L10.52 16l-2.26 2.26L6 16zm6.116 1.596L16 21.48l3.886-3.886 2.26 2.259L16 26l-6.144-6.144-.002-.002 2.262-2.258zM21.48 16l2.26-2.26L26 16l-2.26 2.26L21.48 16z" fill="white"/></svg><span>BNB</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- Security zone -->
+    <div class="footer-security">
+      <div class="security-label"><i class="fa-solid fa-shield-halved"></i> Secure &amp; Verified Service</div>
+      <div class="security-icons">
+        <div class="sec-badge visa-badge"><i class="fa-solid fa-circle" style="font-size:1.1rem;color:#1a1a1b"></i><span>BlockChain</span></div>
+        <div class="sec-badge mc-badge"><i class="fa-solid fa-circle" style="font-size:1.1rem;color:#eb001b"></i><span>Crypto</span></div>
+        <div class="sec-badge ssl-badge"><i class="fa-solid fa-lock" style="color:var(--green)"></i><span>SSL Secure</span></div>
+        <div class="sec-badge"><i class="fa-solid fa-shield-check" style="color:var(--teal)"></i><span>256-bit Encrypted</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 <strong>FlashUSDT Vault</strong>. All rights reserved. Fast &amp; Secure automated delivery.<br>
+      <span style="font-size:.66rem;opacity:.5">Not affiliated with wallets</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ══ SMOOTH NAV ═══════════════════════════════════════════════════════
+function smoothNav(e,id){if(e){e.preventDefault();e.stopPropagation();}const el=document.getElementById(id);if(!el)return;window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-70,behavior:'smooth'});}
+
+// ══ STATE ════════════════════════════════════════════════════════════
+let selectedUC=50000,selectedPrice=25;
+let deliveryMult=1,deliveryLabel='24 Hours (Standard)';
+let serverLabel='',serverFlag='';
+let payAddr='',uploadedFile=false;
+let airdropPayAddr='',airdropUploaded=false;
+let airdropServerLabel='',airdropServerFlag='',airdropPID='';
+let airdropPaymentDone=false;
+
+// ══ NAV ACTIVE ════════════════════════════════════════════════════════
+const navSections=['hero','purchase','airdrop','mining','features','reviews','faq','about'];
+function updateActiveNav(){
+  const scrollY=window.scrollY+80;let cur='hero';
+  navSections.forEach(id=>{const el=document.getElementById(id);if(el&&el.offsetTop<=scrollY)cur=id;});
+  document.querySelectorAll('.nav-link,.mobile-link').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+  document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>10);
+}
+window.addEventListener('scroll',updateActiveNav,{passive:true});updateActiveNav();
+
+// ══ HAMBURGER ════════════════════════════════════════════════════════
+function toggleMobileMenu(){const m=document.getElementById('mobileMenu'),b=document.getElementById('hamburgerBtn'),o=m.classList.contains('open');m.classList.toggle('open',!o);b.classList.toggle('open',!o);}
+function closeMobileMenu(){document.getElementById('mobileMenu').classList.remove('open');document.getElementById('hamburgerBtn').classList.remove('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('nav')&&!e.target.closest('.mobile-menu'))closeMobileMenu();});
+
+// ══ UC SELECT ════════════════════════════════════════════════════════
+function selectUC(el){document.querySelectorAll('.uc-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');selectedUC=parseInt(el.dataset.uc);selectedPrice=parseFloat(el.dataset.price);updateSummary();}
+
+// ══ CUSTOM DROPDOWNS ═════════════════════════════════════════════════
+
+function toggleSelect(id){
+  const w=document.getElementById(id);if(!w)return;
+  const t=w.querySelector('.custom-select-trigger'),d=w.querySelector('.custom-dropdown'),a=w.querySelector('.cst-arrow');
+  const o=d.classList.contains('open');
+  document.querySelectorAll('.custom-dropdown.open').forEach(x=>{x.classList.remove('open');x.previousElementSibling&&x.previousElementSibling.classList.remove('open');});
+  document.querySelectorAll('.cst-arrow.open').forEach(x=>x.classList.remove('open'));
+  if(!o){d.classList.add('open');t.classList.add('open');a.classList.add('open');}
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.custom-select')){
+    document.querySelectorAll('.custom-dropdown.open').forEach(d=>{d.classList.remove('open');const t=d.closest('.custom-select').querySelector('.custom-select-trigger');if(t)t.classList.remove('open');});
+    document.querySelectorAll('.cst-arrow.open').forEach(a=>a.classList.remove('open'));
+  }
+});
+function pickDelivery(el){deliveryMult=parseFloat(el.dataset.mult);deliveryLabel=el.dataset.label;document.getElementById('deliveryLabel').textContent=deliveryLabel;document.querySelectorAll('#deliveryDropdown .dropdown-option').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');toggleSelect('deliverySelect');updateSummary();}
+function flagHTML(flag,label){return flag?`<img src="${flag}" alt="${label}" style="width:20px;height:14px;border-radius:2px;object-fit:cover;border:1px solid rgba(255,255,255,0.1)"><span>${label}</span>`:`<span class="server-flag-placeholder"><i class="fa-solid fa-globe"></i></span><span>${label}</span>`;}
+function flagFlagHTML(flag,label){return flag?`<img src="${flag}" alt="${label}" style="width:20px;height:14px;border-radius:2px;object-fit:cover;border:1px solid rgba(255,255,255,0.1)"><span class="flag-sep"></span>`:`<span class="server-flag-placeholder"><i class="fa-solid fa-globe"></i></span><span class="flag-sep"></span>`;}
+function pickServer(el){
+
+  // 1. احفظ القيم
+  serverLabel = el.dataset.label;
+  serverFlag  = el.dataset.flag || '';
+
+  // 2. غيّر المحتوى اللي جوا الـ trigger
+  const triggerLeft = document.getElementById('serverTriggerContent');
+
+  if(serverFlag){
+    // لو في فلاج — اعرض الصورة + النص
+    triggerLeft.innerHTML =
+      '<img src="' + serverFlag + '" ' +
+      'style="width:20px;height:14px;border-radius:2px;' +
+      'object-fit:cover;border:1px solid rgba(255,255,255,0.1)">' +
+      '<span>' + serverLabel + '</span>';
+  } else {
+    // لو مفيش فلاج (Global) — اعرض أيقونة كرة الأرض
+    triggerLeft.innerHTML =
+      '<span class="server-flag-placeholder">' +
+      '<i class="fa-solid fa-globe"></i></span>' +
+      '<span>' + serverLabel + '</span>';
+  }
+
+  // 3. غيّر الصورة اللي جنب Player ID
+  const flagDisplay = document.getElementById('serverFlagDisplay');
+
+  if(serverFlag){
+    flagDisplay.innerHTML =
+      '<img src="' + serverFlag + '" ' +
+      'style="width:20px;height:14px;border-radius:2px;' +
+      'object-fit:cover;border:1px solid rgba(255,255,255,0.1)">' +
+      '<span class="flag-sep"></span>';
+  } else {
+    flagDisplay.innerHTML =
+      '<span class="server-flag-placeholder">' +
+      '<i class="fa-solid fa-globe"></i></span>' +
+      '<span class="flag-sep"></span>';
+  }
+
+  // 4. شيل selected من كل الـ options وحطها على اللي اتضغط عليه
+  document.querySelectorAll('#serverDropdown .dropdown-option')
+    .forEach(function(o){ o.classList.remove('selected'); });
+  el.classList.add('selected');
+
+  // 5. اقفل الـ dropdown
+  toggleSelect('serverSelect');
+
+  // 6. حدّث الـ summary
+  updateSummary();
+}
+function pickPayMethod(el){payAddr=el.dataset.addr;document.getElementById('payMethodLabel').textContent=el.dataset.label;document.querySelectorAll('#payMethodDropdown .dropdown-option').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');toggleSelect('payMethodSelect');showQR();}
+function pickAirdropServer(el) {
+   airdropServerLabel = el.dataset.label;
+   airdropServerFlag = el.dataset.flag || '';
+
+  // تحديث الجزء الخاص بالعرض في الزرار (Trigger)
+  const triggerLeft = document.getElementById('airdropServerContent');
+  
+  if (airdropServerFlag) {
+    triggerLeft.innerHTML = `
+      <img src="${airdropServerFlag}" style="width:20px;height:14px;border-radius:2px;object-fit:cover;border:1px solid rgba(255,255,255,0.1)">
+      <span id="airdropServerLabel">${airdropServerLabel}</span>
+    `;
+  } else {
+    triggerLeft.innerHTML = `
+      <span class="server-flag-placeholder"><i class="fa-solid fa-globe"></i></span>
+      <span id="airdropServerLabel">${airdropServerLabel}</span>
+    `;
+  }
+
+  // تحديث الـ Flag Display إذا كان موجوداً في صفحتك
+  const flagDisplay = document.getElementById('airdropFlagDisplay');
+  if (flagDisplay) {
+    if (airdropServerFlag) {
+      flagDisplay.innerHTML = `
+        <img src="${airdropServerFlag}" style="width:20px;height:14px;border-radius:2px;object-fit:cover;border:1px solid rgba(255,255,255,0.1)">
+        <span class="flag-sep"></span>
+      `;
+    } else {
+      flagDisplay.innerHTML = `
+        <span class="server-flag-placeholder"><i class="fa-solid fa-globe"></i></span>
+        <span class="flag-sep"></span>
+      `;
+    }
+  }
+
+  // إدارة الكلاس "selected" في القائمة
+  document.querySelectorAll('#airdropServerDropdown .dropdown-option')
+    .forEach(function(o) { o.classList.remove('selected'); });
+  el.classList.add('selected');
+
+  // إغلاق الـ dropdown
+  const w = document.getElementById('airdropServerSelect');
+  if (w) {
+    const d = w.querySelector('.custom-dropdown');
+    const t = w.querySelector('.custom-select-trigger');
+    const a = w.querySelector('.cst-arrow');
+    if (d) d.classList.remove('open');
+    if (t) t.classList.remove('open');
+    if (a) a.classList.remove('open');
+  }
+}
+function pickAirdropPayMethod(el){airdropPayAddr=el.dataset.addr;document.getElementById('airdropPayMethodLabel').textContent=el.dataset.label;document.querySelectorAll('#airdropPayMethodDropdown .dropdown-option').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');toggleSelect('airdropPayMethodSelect');document.getElementById('airdropWalletAddr').textContent=airdropPayAddr;document.getElementById('airdropQrImg').src=`https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=${encodeURIComponent(airdropPayAddr)}&bgcolor=ffffff&color=000000`;document.getElementById('airdropQrSection').classList.add('show');}
+
+// ══ SUMMARY ══════════════════════════════════════════════════════════
+function updateSummary(){const total=(selectedPrice*deliveryMult).toFixed(2),pid=document.getElementById('playerID').value.trim();document.getElementById('s-uc').textContent=selectedUC+' USDT';document.getElementById('s-delivery').textContent=deliveryLabel;document.getElementById('s-server').textContent=serverLabel;document.getElementById('s-pid').textContent=pid||'Not entered';document.getElementById('s-pid').style.color=pid?'var(--text)':'var(--muted)';document.getElementById('s-total').textContent='$'+total;}
+
+// ══ PURCHASE MODAL ════════════════════════════════════════════════════
+function openModal(){const pid=document.getElementById('playerID').value.trim();
+const errorBox = document.getElementById("buy-error");
+const input = document.getElementById("playerID");
+
+errorBox.style.display = "none";
+errorBox.innerText = "";
+input.style.border = "";
+
+// TRC20
+if (serverLabel.includes('TRC20') && !pid.startsWith('T')) {
+  input.style.border = "2px solid red";
+  errorBox.innerText = "Address must start with T (TRC20)";
+  errorBox.style.display = "block";
+  return;
+}
+
+// ERC20
+if (serverLabel.includes('ERC20') && !pid.startsWith('0x')) {
+  input.style.border = "2px solid red";
+  errorBox.innerText = "Address must start with 0x (ERC20)";
+  errorBox.style.display = "block";
+  return;
+}
+
+// BTC
+if (serverLabel.includes('Bitcoin') && !/^([13]|bc1)/.test(pid)) {
+  input.style.border = "2px solid red";
+  errorBox.innerText = "Invalid BTC address";
+  errorBox.style.display = "block";
+  return;
+}
+if(!pid){const i=document.getElementById('playerID');i.focus();i.style.borderColor='#ff4444';setTimeout(()=>i.style.borderColor='',2000);return;}document.getElementById('m-uc').textContent=selectedUC+' USDT';document.getElementById('m-del').textContent=deliveryLabel;document.getElementById('m-srv').textContent=serverLabel;document.getElementById('m-pid').textContent=pid;document.getElementById('m-total').textContent=document.getElementById('s-total').textContent;document.getElementById('payMethodLabel').textContent='Choose Payment Method';document.getElementById('qrSection').classList.remove('show');document.getElementById('payForm').style.display='';document.getElementById('successMsg').classList.remove('show');uploadedFile=false;document.getElementById('fileNameDisplay').style.display='none';document.getElementById('uploadArea').classList.remove('has-file','required-glow');['buyerName','buyerEmail','buyerTelegram'].forEach(id=>document.getElementById(id).value='');document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+// ══ QR / UPLOAD ══════════════════════════════════════════════════════
+function showQR(){if(!payAddr){document.getElementById('qrSection').classList.remove('show');return;}document.getElementById('walletAddr').textContent=payAddr;document.getElementById('qrImg').src=`https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=${encodeURIComponent(payAddr)}&bgcolor=ffffff&color=000000`;document.getElementById('qrSection').classList.add('show');}
+function copyAddr(){navigator.clipboard.writeText(payAddr).then(()=>{const b=document.querySelector('#modal .copy-btn'),o=b.innerHTML;b.innerHTML='<i class="fa-solid fa-check"></i> Copied!';setTimeout(()=>b.innerHTML=o,1500);});}
+function fileSelected(input){const d=document.getElementById('fileNameDisplay'),a=document.getElementById('uploadArea');if(input.files[0]){d.querySelector('span').textContent=input.files[0].name;d.style.display='flex';uploadedFile=true;a.classList.add('has-file');a.classList.remove('required-glow');}}
+function confirmPayment(){if(!payAddr)return;if(!uploadedFile){const a=document.getElementById('uploadArea');a.classList.add('required-glow');a.scrollIntoView({behavior:'smooth',block:'nearest'});return;}const b=document.querySelector('#modal .confirm-btn');b.innerHTML='<span class="spinner"></span>';setTimeout(()=>{document.getElementById('payForm').style.display='none';document.getElementById('successMsg').classList.add('show');},2000);}
+
+// ══ AIRDROP STEP 1 ════════════════════════════════════════════════════
+function airdropContinue(){const pid=document.getElementById('airdropPlayerID').value.trim();if(!airdropServerLabel){const t=document.querySelector('#airdropServerSelect .custom-select-trigger');t.style.borderColor='#ff4444';setTimeout(()=>t.style.borderColor='',2000);return;}if(!pid){const i=document.getElementById('airdropPlayerID');i.focus();i.style.borderColor='#ff4444';setTimeout(()=>i.style.borderColor='',2000);return;}
+// VALIDATION حسب الشبكة
+const errorBox = document.getElementById("airdrop-error");
+errorBox.style.display = "none";
+errorBox.innerText = "";
+
+const input = document.getElementById("airdropPlayerID");
+
+// TRC20
+if (airdropServerLabel.includes('TRC20') && !pid.startsWith('T')) {
+  input.style.border = "2px solid red";
+  errorBox.innerText = "Address must start with T (TRC20)";
+  errorBox.style.display = "block";
+  return;
+}
+
+// ERC20
+if (airdropServerLabel.includes('ERC20') && !pid.startsWith('0x')) {
+  input.style.border = "2px solid red";
+  errorBox.innerText = "Address must start with 0x (ERC20)";
+  errorBox.style.display = "block";
+  return;
+}
+
+// BTC
+if (airdropServerLabel.includes('Bitcoin') && !/^([13]|bc1)/.test(pid)) {
+  input.style.border = "2px solid red";
+  errorBox.innerText = "Invalid BTC address";
+  errorBox.style.display = "block";
+  return;
+}
+airdropPID=pid;document.getElementById('airdropPlayerID').disabled=true;const cb=document.getElementById('airdropContinueBtn');cb.innerHTML='<i class="fa-solid fa-check"></i> Details Confirmed';cb.style.cssText='background:rgba(0,229,204,0.07);color:var(--teal);border:1px solid var(--border2);box-shadow:none;cursor:default';cb.disabled=true;document.getElementById('am-server').textContent=airdropServerLabel;document.getElementById('am-pid').textContent=airdropPID;document.getElementById('airdropPayMethodLabel').textContent='Choose Payment Method';document.getElementById('airdropQrSection').classList.remove('show');document.getElementById('airdropPayForm').style.display='';document.getElementById('airdropSuccessMsg').classList.remove('show');airdropUploaded=false;document.getElementById('airdropFileDisplay').style.display='none';document.getElementById('airdropUploadArea').classList.remove('has-file','required-glow');document.getElementById('airdropModal').classList.add('open');}
+function closeAirdropModal(){document.getElementById('airdropModal').classList.remove('open');}
+document.getElementById('airdropModal').addEventListener('click',function(e){if(e.target===this)closeAirdropModal();});
+function copyAirdropAddr(){navigator.clipboard.writeText(airdropPayAddr).then(()=>{const b=document.querySelector('#airdropModal .copy-btn');if(!b)return;const o=b.innerHTML;b.innerHTML='<i class="fa-solid fa-check"></i> Copied!';setTimeout(()=>b.innerHTML=o,1500);});}
+function airdropFileSelected(input){const d=document.getElementById('airdropFileDisplay'),a=document.getElementById('airdropUploadArea');if(input.files[0]){d.querySelector('span').textContent=input.files[0].name;d.style.display='flex';airdropUploaded=true;a.classList.add('has-file');a.classList.remove('required-glow');}}
+function confirmAirdropPayment(){if(!airdropPayAddr)return;if(!airdropUploaded){const a=document.getElementById('airdropUploadArea');a.classList.add('required-glow');a.scrollIntoView({behavior:'smooth',block:'nearest'});return;}const b=document.querySelector('#airdropModal .confirm-btn');b.innerHTML='<span class="spinner" style="border-top-color:#1a0a00"></span>';setTimeout(()=>{document.getElementById('airdropPayForm').style.display='none';document.getElementById('airdropSuccessMsg').classList.add('show');},2000);}
+function activateCardReveal(){airdropPaymentDone=true;const btn=document.getElementById('unlockBtn');btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-unlock"></i> Unlock Your Reward Now';setTimeout(()=>document.getElementById('airdropStep2').scrollIntoView({behavior:'smooth',block:'start'}),200);}
+
+// ══ CARD REVEAL ══════════════════════════════════════════════════════
+const airdropWeights=[40,25,18,10,5,2];
+function weightedRandom(){let r=Math.random()*airdropWeights.reduce((a,b)=>a+b,0);for(let i=0;i<airdropWeights.length;i++){r-=airdropWeights[i];if(r<=0)return i;}return 0;}
+function doCardReveal(){if(!airdropPaymentDone)return;const cards=Array.from(document.querySelectorAll('#rewardsGrid .reward-card')),btn=document.getElementById('unlockBtn');btn.disabled=true;btn.innerHTML='<span class="spinner" style="border-top-color:#1a0a00"></span>';cards.forEach(c=>c.classList.remove('winner','active-sweep','sweeping'));const w=weightedRandom();const T=36,F=24;let s=0;function hl(i){cards.forEach((c,j)=>{c.classList.remove('active-sweep');c.classList.toggle('sweeping',j===i);});cards[i].classList.add('active-sweep');}function gd(x){return x<F?60+x*2:100+(x-F)*28;}function run(){if(s>=T){cards.forEach(c=>c.classList.remove('active-sweep','sweeping'));cards[w].classList.add('winner');if(w===5)launchConfetti();setTimeout(()=>{btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-unlock"></i> Try Again for $20';},2500);return;}let i=s<F?s%cards.length:(F+(s-F))%cards.length;if(s===T-2)i=(w-1+cards.length)%cards.length;if(s===T-1)i=w;hl(i);s++;setTimeout(run,gd(s));}run();}
+
+// ══ CONFETTI ════════════════════════════════════════════════════════
+function launchConfetti(){const c=['#39FF14','#00e5cc','#ffd700','#ff7700','#ff44ff'];for(let i=0;i<80;i++){const el=document.createElement('div');el.className='confetti-piece';el.style.cssText=`left:${Math.random()*100}vw;background:${c[Math.floor(Math.random()*c.length)]};animation-duration:${1.5+Math.random()*1.5}s;animation-delay:${Math.random()*.5}s;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;border-radius:${Math.random()>.5?'50%':'2px'}`;document.body.appendChild(el);setTimeout(()=>el.remove(),3500);}}
+
+// ══ MINING ══════════════════════════════════════════════════════════
+let miningActive=false,miningSpeed=1;let minedBalance=0,miningProgress=0;let miningTimerSecs=30,miningInterval=null,miningTimerInt=null;let upsellShown=false,firstRewardDone=false;
+function setMiningSpeed(el){if(miningActive)return;document.querySelectorAll('.speed-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');miningSpeed=parseInt(el.dataset.rate);const ads=parseInt(el.dataset.ads);document.getElementById('startMiningBtn').innerHTML=`<i class="fa-solid fa-play"></i> Start Mining (${ads} ad${ads>1?'s':''} required)`;}
+function startMining(){if(miningActive){stopMining();return;}miningActive=true;miningProgress=0;miningTimerSecs=firstRewardDone?Math.floor(3600/miningSpeed)*2:30;const cs=miningTimerSecs;document.getElementById('startMiningBtn').innerHTML='<i class="fa-solid fa-stop"></i> Stop Mining';document.getElementById('miningSpinIcon').style.display='inline-block';document.getElementById('miningIdleIcon').style.display='none';document.getElementById('miningStatusText').textContent='Mining in progress...';miningInterval=setInterval(()=>{miningProgress=Math.min(miningProgress+(100/cs),100);document.getElementById('progressFill').style.width=miningProgress+'%';document.getElementById('miningPct').textContent=Math.floor(miningProgress)+'%';},1000);miningTimerInt=setInterval(()=>{if(miningTimerSecs<=0){clearInterval(miningTimerInt);clearInterval(miningInterval);const e=firstRewardDone?miningSpeed:5;minedBalance=Math.round((minedBalance+e)*100)/100;document.getElementById('minedBalance').textContent=minedBalance.toFixed(2);miningActive=false;firstRewardDone=true;document.getElementById('progressFill').style.width='100%';document.getElementById('miningPct').textContent='100%';document.getElementById('startMiningBtn').innerHTML='<i class="fa-solid fa-play"></i> Mine More (watch ad)';document.getElementById('miningSpinIcon').style.display='none';document.getElementById('miningIdleIcon').style.display='inline-block';document.getElementById('miningStatusText').textContent='Reward collected!';document.getElementById('miningTimerDisplay').textContent='00:00';if(minedBalance>=10){const wb=document.getElementById('withdrawBtn');wb.disabled=false;wb.classList.add('enabled');}if(!upsellShown){upsellShown=true;setTimeout(showUpsell,2500);}}else{miningTimerSecs--;const m=Math.floor(miningTimerSecs/60),sc=miningTimerSecs%60;document.getElementById('miningTimerDisplay').textContent=String(m).padStart(2,'0')+':'+String(sc).padStart(2,'0');}},1000);}
+function stopMining(){miningActive=false;clearInterval(miningInterval);clearInterval(miningTimerInt);document.getElementById('startMiningBtn').innerHTML='<i class="fa-solid fa-play"></i> Resume Mining';document.getElementById('miningSpinIcon').style.display='none';document.getElementById('miningIdleIcon').style.display='inline-block';document.getElementById('miningStatusText').textContent='Mining paused';}
+function showUpsell(){document.getElementById('upsellOverlay').classList.add('show');}
+function closeUpsell(){document.getElementById('upsellOverlay').classList.remove('show');}
+
+// ══ FAQ ══════════════════════════════════════════════════════════════
+function toggleFAQ(el){const o=el.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(f=>f.classList.remove('open'));if(!o)el.classList.add('open');}
+
+// ══ REVIEW ═══════════════════════════════════════════════════════════
+function submitReview(){const n=document.getElementById('rv-name').value.trim(),c=document.getElementById('rv-comment').value.trim();if(!n||!c)return;const d=document.getElementById('reviewSuccess');d.style.display='flex';setTimeout(()=>d.style.display='none',4000);document.getElementById('rv-name').value='';document.getElementById('rv-comment').value='';}
+
+// ══ REVIEWS SLIDER ════════════════════════════════════════════════════
+const reviewsData=[{name:'Alex M.',init:'A',text:'"Got my USDT in 5 minutes, totally legit service!"'},{name:'Daniel R.',init:'D',text:'"Prices are way cheaper than anywhere else."'},{name:'Michael S.',init:'M',text:'"Smooth and fast, will definitely buy again!"'},{name:'Ryan K.',init:'R',text:'"Trusted store, used it 3 times. Zero issues."'},{name:'David L.',init:'D',text:'"Best Flash usdt deal on the internet. Highly recommend!"'},{name:'Chris T.',init:'C',text:'"Instant delivery worked in under 2 minutes!"'},{name:'James W.',init:'J',text:'"Secure checkout and very responsive support."'},{name:'Nathan B.',init:'N',text:'"Great service, no delays. Super fast!"'}];
+(function(){const tr=document.getElementById('reviewsTrack');[...reviewsData,...reviewsData].forEach(r=>{const c=document.createElement('div');c.className='review-card';c.innerHTML=`<div class="stars">${'<i class="fa-solid fa-star"></i>'.repeat(5)}</div><div class="review-text">${r.text}</div><div class="reviewer"><div class="avatar">${r.init}</div><div class="reviewer-info"><h4>${r.name}</h4><div class="verified"><i class="fa-solid fa-circle-check"></i> Verified Purchase</div></div></div>`;tr.appendChild(c);});})();
+
+// ══ NOTIFICATIONS ════════════════════════════════════════════════════
+const notifPool=(function(){const f=['Alex','Daniel','Michael','Ryan','David','Chris','James','Nathan','Tyler','Ethan','Lucas','Logan','Mason','Oliver','Liam','Noah','Jack','Owen','Caleb','Adam','Andrew','Brandon','Carter','Cole','Connor','Dylan','Eli','Finn','Gavin','Grant','Hunter','Ian','Jake','Jason','Jordan','Justin','Kyle','Luke','Marcus','Matt','Max','Miles','Nick','Patrick','Peter','Sam','Sean','Seth','Shane','Spencer','Steven','Thomas','Travis','Victor','Wesley','Zach','Aaron','Blake','Brian','Cameron','Charlie','Chase','Cody','Dean','Derek','Eric','Evan','Felix','Frank','George','Greg','Henry','Jeff','Jeremy','Joel','Jonathan','Kevin','Lance','Leo','Lewis','Marco','Martin','Nate','Neil','Nico','Oscar','Paul','Reid','Rob','Ross','Scott','Simon','Tim','Tom','Tony','Troy','Wade','Will','Wyatt','Zane'];const l=['Smith','Jones','Brown','Davis','Wilson','Moore','Taylor','Anderson','Thomas','Jackson','White','Harris','Martin','Garcia','Robinson','Clark','Lewis','Lee','Walker','Hall','Allen','Young','King','Wright','Lopez','Hill','Green','Baker','Nelson','Carter','Roberts','Turner','Phillips','Campbell','Parker','Evans','Edwards','Collins','Morris','Murphy','Cook','Rogers','Morgan','Cooper','Reed','Bailey','Bell'];const arr=[];const seen=new Set();for(let i=0;arr.length<280;i++){const n=f[i%f.length]+' '+l[Math.floor(Math.random()*l.length)][0]+'.';if(!seen.has(n)){seen.add(n);arr.push(n);}}return arr;})();
+let nIdx=0;const nUC=['50,000 USDT','100,000 USDT','250,000 USDT','500,000 USDT'];const nActs=['just bought','purchased','topped up with','just ordered'];const nTimes=['just now','1 min ago','2 min ago','3 min ago','4 min ago'];
+function showNotif(){const name=notifPool[nIdx%notifPool.length];nIdx++;const uc=nUC[Math.floor(Math.random()*nUC.length)];const act=nActs[Math.floor(Math.random()*nActs.length)];const t=nTimes[Math.floor(Math.random()*nTimes.length)];const c=document.getElementById('notifContainer');const n=document.createElement('div');n.className='notif';n.innerHTML=`<div class="notif-avatar">${name[0]}</div><div><div class="notif-text"><span>${name}</span> ${act} <span>${uc}</span></div><div class="notif-time">${t}</div></div>`;c.appendChild(n);setTimeout(()=>{n.style.transition='.4s';n.style.opacity='0';n.style.transform='translateX(-18px)';setTimeout(()=>n.remove(),400);},4200);while(c.children.length>3)c.removeChild(c.firstChild);}
+setTimeout(showNotif,2500);setInterval(showNotif,6500+Math.floor(Math.random()*3000));
+
+// ══ SCROLL REVEAL ════════════════════════════════════════════════════
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in');}),{threshold:0.07});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// init
+updateSummary();
+document.getElementById('startMiningBtn').innerHTML='<i class="fa-solid fa-play"></i> Start Mining (1 ad required)';
+// ══ HOW IT WORKS ═════════════════════════════════════════════════════
+function openHIW(){document.getElementById('hiwOverlay').classList.add('open');}
+function closeHIW(){document.getElementById('hiwOverlay').classList.remove('open');}
+document.getElementById('hiwOverlay').addEventListener('click',function(e){if(e.target===this)closeHIW();});
+
+// ══ CONTACT FLOAT ════════════════════════════════════════════════════
+function toggleContact(){
+  const p=document.getElementById('contactPanel');
+  p.classList.toggle('open');
+  if(!p.classList.contains('open')){
+    document.getElementById('cpSuccess').classList.remove('show');
+    document.getElementById('cpBody').style.display='flex';
+  }
+}
+function submitTicket(){
+  const name=document.getElementById('cpName').value.trim();
+  const contact=document.getElementById('cpContact').value.trim();
+  const msg=document.getElementById('cpMsg').value.trim();
+  if(!msg){document.getElementById('cpMsg').style.borderColor='#ff4444';setTimeout(()=>document.getElementById('cpMsg').style.borderColor='',2000);return;}
+  document.getElementById('cpReplyTo').textContent=contact||name||'you';
+  document.getElementById('cpSuccess').classList.add('show');
+  document.querySelector('.cp-submit').style.display='none';
+  ['cpName','cpContact','cpMsg'].forEach(id=>document.getElementById(id).value='');
+}
+document.getElementById("airdropPlayerID").addEventListener("input", function () {
+  this.style.border = "";
+  document.getElementById("airdrop-error").style.display = "none";
+});
+document.getElementById("playerID").addEventListener("input", function () {
+  this.style.border = "";
+  document.getElementById("buy-error").style.display = "none";
+});
+</script>
+</body>
+</html>
