@@ -1002,29 +1002,29 @@ footer{position:relative;z-index:2;
     <div class="purchase-body">
       <div class="form-label" style="margin-bottom:11px"><i class="fa-solid fa-layer-group"></i> 1. Select USDT Amount</div>
       <div class="uc-grid" id="ucGrid">
-        <div class="uc-card" data-uc="50000" data-price="25" onclick="selectUC(this)">
+        <div class="uc-card" data-uc="5000" data-price="60" onclick="selectUC(this)">
           <div class="uc-badge-row"></div>
           <div class="uc-icon-wrap"><i class="fa-solid fa-gem"></i></div>
-          <div class="uc-amount">50,000 USDT</div><div class="uc-label">Starter Pack</div>
-          <div class="uc-price">$25</div>
+          <div class="uc-amount">5,000 USDT</div><div class="uc-label">Starter Pack</div>
+          <div class="uc-price">$60</div>
         </div>
-        <div class="uc-card popular" data-uc="100000" data-price="40" onclick="selectUC(this)">
+        <div class="uc-card popular" data-uc="10000" data-price="100" onclick="selectUC(this)">
           <div class="uc-badge-row"><span class="uc-badge pop"><i class="fa-solid fa-fire" style="font-size:.44rem"></i> Most Popular</span></div>
           <div class="uc-icon-wrap"><i class="fa-solid fa-diamond"></i></div>
-          <div class="uc-amount">100,000 USDT</div><div class="uc-label">Fan Favorite</div>
-          <div class="uc-price">$40</div><div class="uc-original">$50</div><div class="uc-save">Save $10 (20%)</div>
+          <div class="uc-amount">10,000 USDT</div><div class="uc-label">Fan Favorite</div>
+          <div class="uc-price">$100</div><div class="uc-original">$120</div><div class="uc-save">Save $20 (20%)</div>
         </div>
-        <div class="uc-card best-value selected" data-uc="250000" data-price="80" onclick="selectUC(this)">
+        <div class="uc-card best-value selected" data-uc="25000" data-price="200" onclick="selectUC(this)">
           <div class="uc-badge-row"><span class="uc-badge best"><i class="fa-solid fa-star" style="font-size:.44rem"></i> Best Value</span></div>
           <div class="uc-icon-wrap"><i class="fa-solid fa-trophy"></i></div>
-          <div class="uc-amount">250,000</div><div class="uc-label">Best Deal</div>
-          <div class="uc-price">$80</div><div class="uc-original">$125</div><div class="uc-save">Save $45 (36%)</div>
+          <div class="uc-amount">25,000</div><div class="uc-label">Best Deal</div>
+          <div class="uc-price">$200</div><div class="uc-original">$300</div><div class="uc-save">Save $100 (30%)</div>
         </div>
-        <div class="uc-card" data-uc="500000" data-price="150" onclick="selectUC(this)">
+        <div class="uc-card" data-uc="50000" data-price="350" onclick="selectUC(this)">
           <div class="uc-badge-row"></div>
           <div class="uc-icon-wrap"><i class="fa-solid fa-crown"></i></div>
-          <div class="uc-amount">500,000 USDT</div><div class="uc-label">Elite Pack</div>
-          <div class="uc-price">$150</div><div class="uc-original">$250</div><div class="uc-save">Save $100 (60%)</div>
+          <div class="uc-amount">50,000 USDT</div><div class="uc-label">Elite Pack</div>
+          <div class="uc-price">$350</div><div class="uc-original">$600</div><div class="uc-save">Save $250 (45%)</div>
         </div>
       </div>
       <div class="form-row">
@@ -1611,7 +1611,7 @@ Important: Flash tokens are temporary visibility tokens. They cannot be transfer
 function smoothNav(e,id){if(e){e.preventDefault();e.stopPropagation();}const el=document.getElementById(id);if(!el)return;window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-70,behavior:'smooth'});}
 
 // ══ STATE ════════════════════════════════════════════════════════════
-let selectedUC=50000,selectedPrice=25;
+let selectedUC=5000,selectedPrice=60;
 let deliveryMult=1,deliveryLabel='24 Hours (Standard)';
 let serverLabel='',serverFlag='';
 let payAddr='',uploadedFile=false;
@@ -1874,7 +1874,7 @@ const reviewsData=[{name:'Alex M.',init:'A',text:'"Got my USDT in 5 minutes, tot
 
 // ══ NOTIFICATIONS ════════════════════════════════════════════════════
 const notifPool=(function(){const f=['Alex','Daniel','Michael','Ryan','David','Chris','James','Nathan','Tyler','Ethan','Lucas','Logan','Mason','Oliver','Liam','Noah','Jack','Owen','Caleb','Adam','Andrew','Brandon','Carter','Cole','Connor','Dylan','Eli','Finn','Gavin','Grant','Hunter','Ian','Jake','Jason','Jordan','Justin','Kyle','Luke','Marcus','Matt','Max','Miles','Nick','Patrick','Peter','Sam','Sean','Seth','Shane','Spencer','Steven','Thomas','Travis','Victor','Wesley','Zach','Aaron','Blake','Brian','Cameron','Charlie','Chase','Cody','Dean','Derek','Eric','Evan','Felix','Frank','George','Greg','Henry','Jeff','Jeremy','Joel','Jonathan','Kevin','Lance','Leo','Lewis','Marco','Martin','Nate','Neil','Nico','Oscar','Paul','Reid','Rob','Ross','Scott','Simon','Tim','Tom','Tony','Troy','Wade','Will','Wyatt','Zane'];const l=['Smith','Jones','Brown','Davis','Wilson','Moore','Taylor','Anderson','Thomas','Jackson','White','Harris','Martin','Garcia','Robinson','Clark','Lewis','Lee','Walker','Hall','Allen','Young','King','Wright','Lopez','Hill','Green','Baker','Nelson','Carter','Roberts','Turner','Phillips','Campbell','Parker','Evans','Edwards','Collins','Morris','Murphy','Cook','Rogers','Morgan','Cooper','Reed','Bailey','Bell'];const arr=[];const seen=new Set();for(let i=0;arr.length<280;i++){const n=f[i%f.length]+' '+l[Math.floor(Math.random()*l.length)][0]+'.';if(!seen.has(n)){seen.add(n);arr.push(n);}}return arr;})();
-let nIdx=0;const nUC=['50,000 USDT','100,000 USDT','250,000 USDT','500,000 USDT'];const nActs=['just bought','purchased','topped up with','just ordered'];const nTimes=['just now','1 min ago','2 min ago','3 min ago','4 min ago'];
+let nIdx=0;const nUC=['5,000 USDT','10,000 USDT','25,000 USDT','50,000 USDT'];const nActs=['just bought','purchased','topped up with','just ordered'];const nTimes=['just now','1 min ago','2 min ago','3 min ago','4 min ago'];
 function showNotif(){const name=notifPool[nIdx%notifPool.length];nIdx++;const uc=nUC[Math.floor(Math.random()*nUC.length)];const act=nActs[Math.floor(Math.random()*nActs.length)];const t=nTimes[Math.floor(Math.random()*nTimes.length)];const c=document.getElementById('notifContainer');const n=document.createElement('div');n.className='notif';n.innerHTML=`<div class="notif-avatar">${name[0]}</div><div><div class="notif-text"><span>${name}</span> ${act} <span>${uc}</span></div><div class="notif-time">${t}</div></div>`;c.appendChild(n);setTimeout(()=>{n.style.transition='.4s';n.style.opacity='0';n.style.transform='translateX(-18px)';setTimeout(()=>n.remove(),400);},4200);while(c.children.length>3)c.removeChild(c.firstChild);}
 setTimeout(showNotif,2500);setInterval(showNotif,6500+Math.floor(Math.random()*3000));
 
