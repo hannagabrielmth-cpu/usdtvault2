@@ -926,6 +926,370 @@ footer{position:relative;z-index:2;
   color:#aaa;
   font-size:14px;
 }
+/* =========================================
+   FLASHUSDT VAULT - PRICING POPUP
+========================================= */
+
+.pricing-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity 0.25s ease,
+    visibility 0.25s ease;
+}
+
+.pricing-popup.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+
+/* Dark transparent background */
+.pricing-popup-overlay {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(0, 12, 7, 0.78);
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+
+/* =========================================
+   POPUP CARD
+========================================= */
+
+.pricing-popup-card {
+  position: relative;
+  z-index: 2;
+
+  width: min(460px, 100%);
+
+  padding: 34px 28px 25px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(7, 29, 16, 0.98),
+      rgba(2, 14, 8, 0.99)
+    );
+
+  border: 1px solid rgba(39, 255, 27, 0.35);
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 50, 0.05),
+    0 0 30px rgba(35, 255, 30, 0.12),
+    0 25px 80px rgba(0, 0, 0, 0.65);
+
+  overflow: hidden;
+
+  transform: scale(0.88) translateY(15px);
+
+  transition:
+    transform 0.35s cubic-bezier(.2,.8,.2,1);
+}
+
+
+/* Neon top line */
+.pricing-popup-card::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 2px;
+
+  background: linear-gradient(
+    90deg,
+    #20ff1c,
+    #00e5d4,
+    #20ff1c
+  );
+
+  box-shadow:
+    0 0 12px #20ff1c,
+    0 0 25px rgba(0, 255, 60, 0.5);
+}
+
+
+/* Subtle grid */
+.pricing-popup-card::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(37, 255, 40, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(37, 255, 40, 0.035) 1px,
+      transparent 1px
+    );
+
+  background-size: 35px 35px;
+
+  pointer-events: none;
+}
+
+
+/* Popup animation */
+.pricing-popup.show .pricing-popup-card {
+  transform: scale(1) translateY(0);
+}
+
+
+/* =========================================
+   CLOSE
+========================================= */
+
+.pricing-popup-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+
+  width: 32px;
+  height: 32px;
+
+  border: 1px solid rgba(35, 255, 30, 0.15);
+  border-radius: 50%;
+
+  background: rgba(0, 255, 50, 0.04);
+
+  color: rgba(255, 255, 255, 0.6);
+
+  font-size: 22px;
+  line-height: 28px;
+
+  cursor: pointer;
+
+  z-index: 5;
+
+  transition: all 0.2s ease;
+}
+
+.pricing-popup-close:hover {
+  color: #20ff1c;
+
+  border-color: #20ff1c;
+
+  box-shadow:
+    0 0 12px rgba(32, 255, 28, 0.25);
+}
+
+
+/* =========================================
+   ICON
+========================================= */
+
+.pricing-popup-icon {
+  position: relative;
+  z-index: 2;
+
+  width: 58px;
+  height: 58px;
+
+  margin: 0 auto 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(35, 255, 30, 0.25),
+      rgba(0, 200, 180, 0.08)
+    );
+
+  border: 1px solid rgba(35, 255, 30, 0.45);
+
+  box-shadow:
+    0 0 20px rgba(35, 255, 30, 0.15),
+    inset 0 0 15px rgba(35, 255, 30, 0.08);
+}
+
+.pricing-popup-icon span {
+  color: #20ff1c;
+
+  font-size: 27px;
+  font-weight: 800;
+
+  text-shadow:
+    0 0 10px rgba(32, 255, 28, 0.6);
+}
+
+
+/* =========================================
+   BADGE
+========================================= */
+
+.pricing-popup-badge {
+  position: relative;
+  z-index: 2;
+
+  text-align: center;
+
+  color: #00e5d4;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+
+  margin-bottom: 9px;
+
+  text-shadow:
+    0 0 8px rgba(0, 229, 212, 0.35);
+}
+
+
+/* =========================================
+   TITLE
+========================================= */
+
+.pricing-popup-card h2 {
+  position: relative;
+  z-index: 2;
+
+  margin: 0 0 15px;
+
+  text-align: center;
+
+  color: #ffffff;
+
+  font-size: 27px;
+  font-weight: 800;
+
+  line-height: 1.2;
+}
+
+.pricing-popup-card h2 span {
+  color: #20ff1c;
+
+  text-shadow:
+    0 0 12px rgba(32, 255, 28, 0.3);
+}
+
+
+/* =========================================
+   TEXT
+========================================= */
+
+.pricing-popup-card p {
+  position: relative;
+  z-index: 2;
+
+  margin: 0 auto 11px;
+
+  max-width: 390px;
+
+  text-align: center;
+
+  color: rgba(205, 225, 210, 0.68);
+
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.pricing-popup-footer {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: 19px;
+  padding: 11px 14px;
+
+  border-radius: 10px;
+
+  background: rgba(32, 255, 28, 0.045);
+
+  border: 1px solid rgba(32, 255, 28, 0.12);
+
+  color: rgba(224, 245, 227, 0.65);
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.pricing-popup-footer span:first-child {
+  color: #20ff1c;
+
+  font-size: 14px;
+
+  text-shadow:
+    0 0 8px rgba(32, 255, 28, 0.7);
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+  .pricing-popup {
+    padding: 18px;
+  }
+
+  .pricing-popup-card {
+    width: 100%;
+    padding: 30px 21px 21px;
+
+    border-radius: 18px;
+  }
+
+  .pricing-popup-icon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .pricing-popup-card h2 {
+    font-size: 24px;
+  }
+
+  .pricing-popup-card p {
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+
+  .pricing-popup-footer {
+    font-size: 10px;
+  }
+}
 </style>
 </head>
 <body>
@@ -1916,6 +2280,69 @@ document.getElementById("airdropPlayerID").addEventListener("input", function ()
 document.getElementById("playerID").addEventListener("input", function () {
   this.style.border = "";
   document.getElementById("buy-error").style.display = "none";
+});
+</script>
+<!-- Pricing Update Popup -->
+<div id="pricingPopup" class="pricing-popup">
+  <div class="pricing-popup-overlay"></div>
+
+  <div class="pricing-popup-card">
+
+    <button class="pricing-popup-close" id="pricingPopupClose">
+      ×
+    </button>
+
+    <div class="pricing-popup-icon">
+      <span>✓</span>
+    </div>
+
+    <div class="pricing-popup-badge">
+      IMPORTANT UPDATE
+    </div>
+
+    <h2>
+      Pricing Plan <span>Update</span>
+    </h2>
+
+    <p>
+      To maintain the quality, reliability, and speed of our service,
+      we’ve recently updated our pricing plans.
+    </p>
+
+    <p>
+      This adjustment allows us to continue improving our platform
+      and delivering the fast, secure service you expect.
+    </p>
+
+    <div class="pricing-popup-footer">
+      <span>⚡</span>
+      <span>Better Service • Continued Support</span>
+    </div>
+
+  </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const popup = document.getElementById("pricingPopup");
+  const closeBtn = document.getElementById("pricingPopupClose");
+
+  // Show popup immediately after page loads
+  requestAnimationFrame(() => {
+    popup.classList.add("show");
+  });
+
+  // Close function
+  function closePopup() {
+    popup.classList.remove("show");
+  }
+
+  // Manual close
+  closeBtn.addEventListener("click", closePopup);
+
+  // Automatically disappear after exactly 3 seconds
+  setTimeout(closePopup, 3000);
+
 });
 </script>
 </body>
